@@ -16,13 +16,6 @@ st.markdown(
 """
 )
 
-_ ='''# Ask the user for their OpenAI API key
-openai_api_key = st.text_input("OpenAI API Key", type="password")
-if not openai_api_key:
-    st.info("Please enter your OpenAI API key to continue.", icon="🗝️")
-else:
-    openai.api_key = openai_api_key
-'''
 # Sidebar for managing classes and students
 st.sidebar.header("Class and Student Management")
 class_name = st.sidebar.text_input("Enter Class Name", placeholder="e.g., Math 101")
@@ -101,124 +94,6 @@ if selected_class:
                 st.error(message)
     else:
         st.info("No students in this class yet.")
-
-import os
-import pdfplumber
-import pandas as pd
-_ ='''
-# ---- PART 2: DOCUMENT-BASED RAG QUESTION ANSWERING ----
-st.header("📄 Part 2: Document-Based RAG Question Answering")
-
-# Function to preload frequently used documents
-@st.cache_data
-def load_preloaded_documents():
-    """Load frequently used documents."""
-    preloaded_documents = {
-        "Document 1": "./preloaded_docs/doc1.txt",
-        "Document 2": "./preloaded_docs/doc2.pdf",
-        "Document 3": "./preloaded_docs/doc3.xlsx"
-    }
-    documents = {}
-    for name, path in preloaded_documents.items():
-        if not os.path.exists(path):
-            st.warning(f"File not found: {path}")
-            continue
-
-        file_type = path.split(".")[-1].lower()
-        try:
-            if file_type == "pdf":
-                with pdfplumber.open(path) as pdf:
-                    text = "".join([page.extract_text() for page in pdf.pages])
-            elif file_type == "txt":
-                with open(path, "r") as file:
-                    text = file.read()
-            elif file_type == "xlsx":
-                df = pd.read_excel(path)
-                text = "\n".join(df.astype(str).apply(lambda x: " ".join(x), axis=1))
-            else:
-                text = None
-                st.warning(f"Unsupported file format: {path}")
-            documents[name] = text
-        except Exception as e:
-            st.error(f"Error processing {path}: {e}")
-    return documents
-
-# Allow users to upload a document or choose from preloaded ones
-st.write("Upload a document or select from preloaded options.")
-uploaded_file = st.file_uploader("Upload a document (.txt, .md, .pdf, .xlsx)", type=("txt", "md", "pdf", "xlsx"))
-preloaded_documents = load_preloaded_documents()
-selected_doc = st.selectbox("Choose a preloaded document (Optional)", options=["None"] + list(preloaded_documents.keys()))
-
-# Determine the document text to use
-if uploaded_file:
-    document_text = extract_text_from_file(uploaded_file)
-    st.write("Using the uploaded document.")
-elif selected_doc != "None":
-    document_text = preloaded_documents[selected_doc]
-    st.write(f"Using preloaded document: {selected_doc}")
-else:
-    document_text = None
-    st.warning("Please upload a document or select a preloaded document to continue.")
-
-# Ask the user for a question
-question = st.text_area(
-    "Now ask a question about the document!",
-    placeholder="e.g., Summarize this document.",
-    disabled=document_text is None,
-)
-
-if document_text and question:
-    with st.spinner("Processing your request..."):
-        try:
-            # Step 2: Generate embeddings for the document chunks
-            st.info("Step 2: Generating embeddings for the document...")
-            chunk_size = 500
-            document_chunks = [
-                document_text[i:i + chunk_size]
-                for i in range(0, len(document_text), chunk_size)
-            ]
-
-            embeddings = []
-            for chunk in document_chunks:
-                response = openai.Embedding.create(
-                    model="text-embedding-ada-002",
-                    input=chunk
-                )
-                embeddings.append(response["data"][0]["embedding"])
-
-            # Step 3: Generate embeddings for the question
-            st.info("Step 3: Generating embeddings for the question...")
-            question_embedding_response = openai.Embedding.create(
-                model="text-embedding-ada-002",
-                input=question
-            )
-            question_embedding = question_embedding_response["data"][0]["embedding"]
-
-            # Step 4: Find the most relevant chunk using cosine similarity
-            st.info("Step 4: Finding the most relevant chunk...")
-            similarities = cosine_similarity([question_embedding], embeddings)
-            most_relevant_chunk_index = np.argmax(similarities)
-            most_relevant_chunk = document_chunks[most_relevant_chunk_index]
-
-            # Step 5: Use ChatGPT API to answer the question
-            st.info("Step 5: Generating the answer using ChatGPT API...")
-            completion_response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",  # Replace with "gpt-4" if needed
-                messages=[
-                    {"role": "system", "content": "You are a helpful assistant."},
-                    {"role": "user", "content": f"Based on the following context, answer the question:\n\nContext: {most_relevant_chunk}\n\nQuestion: {question}"}
-                ]
-            )
-            answer = completion_response["choices"][0]["message"]["content"]
-
-            # Display the result
-            st.success("Here is the answer:")
-            st.write(f"**Answer:** {answer}")
-
-            # Debug Information
-            with st.expander("Debug Information"):
-                st.write(f"**Most Relevant Chunk:**\n{most_relevant_chunk}")
-                st.json({"similarities": similarities.tolist()})
 
         except Exception as e:
             st.error(f"An error occurred: {e}")
