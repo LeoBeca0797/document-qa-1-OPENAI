@@ -49,7 +49,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.markdown('<div class="main-header">Ciao Elisa, benvenuta su PISE</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-header">Benvenuta sul PISA</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub-header">Il tuo aiuto nell\'interpretazione e la raccolta delle capacità socio-emotive!</div>', unsafe_allow_html=True)
 
 # Sidebar with Styled Header
@@ -92,52 +92,76 @@ if student_name:
     grade_level = st.selectbox(
         "📚 Livello scolastico",
         options=[
-            "Asilo", "Prima elementare", "Seconda elementare", "Terza elementare", "Quarta elementare",
-            "Quinta elementare", "Scuola media", "Scuola superiore", "Università"
+            "Asilo", 
+            "Prima elementare", "Seconda elementare", "Terza elementare", "Quarta elementare", "Quinta elementare",
+            "Prima media", "Seconda media", "Terza media",
+            "Prima superiore", "Seconda superiore", "Terza superiore", "Quarta superiore", "Quinta superiore",
+            "Università"
         ],
     )
 
     styled_header(
         label="Domande di accompagnamento",
-        description="Inserisci i dettagli sull'impegno dello studente.",
+        description="Inserisci informazioni sul contesto socio-emotivo dello studente e sulla famiglia.",
         color="#2196F3",
     )
 
-    study_hours = st.number_input(
-        "1️⃣ Ore dedicate allo studio questa settimana", min_value=0, max_value=100, value=0, key="study_hours"
+    # Additional Questions
+    urbanization_level = st.selectbox(
+        "🏙️ Livello di urbanizzazione del sito scolastico", 
+        options=["Urbano", "Rurale"], 
+        key="urbanization_level"
     )
-    assignments_completed = st.number_input(
-        "2️⃣ Compiti completati questa settimana", min_value=0, max_value=50, value=0, key="assignments_completed"
+    migration_background = st.radio(
+        "🌍 Background migratorio", 
+        options=["Sì", "No"], 
+        key="migration_background"
     )
-    classes_attended = st.number_input(
-        "3️⃣ Lezioni frequentate questa settimana", min_value=0, max_value=10, value=0, key="classes_attended"
+    parental_employment_status = st.selectbox(
+        "👔 Status occupazionale dei genitori", 
+        options=["Basso", "Medio", "Alto"], 
+        key="parental_employment_status"
+    )
+    parental_graduate = st.radio(
+        "🎓 Almeno uno dei due genitori è laureato?", 
+        options=["Sì", "No"], 
+        key="parental_graduate"
+    )
+    max_parent_education = st.selectbox(
+        "📘 Livello massimo di istruzione raggiunto da uno dei due genitori",
+        options=[
+            "Licenza elementare", 
+            "Licenza media", 
+            "Diploma superiore", 
+            "Laurea triennale", 
+            "Laurea magistrale", 
+            "Dottorato"
+        ],
+        key="max_parent_education"
     )
 
-    # Perform calculation (formula is hidden)
-    formula_result = (study_hours * 2) + (assignments_completed * 1.5) + (classes_attended * 3)
-
-    # Show feedback based on the result
+    # Feedback Section
     styled_header(
         label="📊 Feedback",
-        description="Valutazione basata sui dati forniti.",
+        description="Valutazione basata sui dati forniti rispetto al livello socio-emozionale di riferimento.",
         color="#FF9800",
     )
-    if formula_result < 100:
-        st.success("🟢 Continua così!")
-    elif 100 <= formula_result < 200:
-        st.warning("🟡 Fai attenzione, serve un po' più impegno.")
+
+    if parental_employment_status == "Basso" or urbanization_level == "Rurale":
+        st.warning("🟡 Lo studente potrebbe trovarsi in un contesto a basso livello socio-emozionale.")
     else:
-        st.error("🔴 Situazione critica, è necessario migliorare.")
+        st.success("🟢 Lo studente ha un contesto favorevole per il livello socio-emozionale.")
 
     # Save student data to session state
     st.session_state.student_data[student_name] = {
         "Età": age,
         "Genere": gender,
         "Livello Scolastico": grade_level,
-        "Ore di Studio": study_hours,
-        "Compiti Completati": assignments_completed,
-        "Lezioni Frequentate": classes_attended,
-        "Risultato": formula_result,
+        "Livello Urbanizzazione": urbanization_level,
+        "Background Migratorio": migration_background,
+        "Status Occupazionale Genitori": parental_employment_status,
+        "Genitori Laureati": parental_graduate,
+        "Livello Istruzione Massimo Genitori": max_parent_education,
     }
 
     # Option to upload data
