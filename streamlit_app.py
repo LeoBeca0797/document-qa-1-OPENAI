@@ -95,7 +95,6 @@ if student_name:
             }
 
             # Display a confirmation
-            st.json(mock_server_response)
             st.success(f"Data for {student_name} has been uploaded successfully!")
 
 # View all entered student data
