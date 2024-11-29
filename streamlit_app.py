@@ -6,7 +6,7 @@ import openai
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
-# ---- GLOBAL CONFIGURATION ----
+# ---- GLOBAL CONFIGURATION ----\
 st.title("📊 Interactive Dashboard")
 st.write("This dashboard combines two functionalities:")
 st.markdown(
