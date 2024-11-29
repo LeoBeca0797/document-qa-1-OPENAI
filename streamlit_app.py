@@ -27,6 +27,17 @@ if selected_student:
 student_name = st.text_input("Enter the Student's Name", placeholder="e.g., John Doe")
 
 if student_name:
+    st.write(f"### Demographic Information for **{student_name}**")
+
+    # Collect demographic data
+    age = st.number_input("Enter the student's age", min_value=3, max_value=100, value=16, step=1, key="age")
+    gender = st.selectbox("Select the student's gender", options=["Male", "Female", "Non-binary", "Other"], key="gender")
+    grade_level = st.selectbox(
+        "Select the student's grade level",
+        options=["Kindergarten", "1st Grade", "2nd Grade", "3rd Grade", "4th Grade", "5th Grade", "Middle School", "High School", "College"],
+        key="grade_level"
+    )
+
     st.write(f"### Guiding questions for **{student_name}**")
 
     # Display all questions at once
@@ -59,6 +70,9 @@ if student_name:
 
     # Save student data to session state
     st.session_state.student_data[student_name] = {
+        "Age": age,
+        "Gender": gender,
+        "Grade Level": grade_level,
         "Study Hours": study_hours,
         "Assignments Completed": assignments_completed,
         "Classes Attended": classes_attended,
