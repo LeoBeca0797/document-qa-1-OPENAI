@@ -14,8 +14,10 @@ if not st.session_state.logged_in:
         if username == "insegnante1" and password == "password123":
             st.session_state.logged_in = True
             st.success("Accesso effettuato con successo!")
+            st.experimental_rerun()  # Refresh the app to show the main interface
         else:
             st.error("Nome utente o password errati. Riprova.")
+    # Stop rendering the main app if not logged in
     st.stop()
 
 # ---- MAIN APPLICATION ----
