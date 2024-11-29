@@ -225,3 +225,4 @@ if document_text and question:
 
         except Exception as e:
             st.error(f"An error occurred: {e}")
+'''
