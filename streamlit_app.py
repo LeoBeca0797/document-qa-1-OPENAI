@@ -24,10 +24,6 @@ option3 = st.sidebar.selectbox("Select Value for Option 3", option3_values)
 # Example formula: (option1 + option2) * option3
 formula_result = (option1 + option2) * option3
 
-# Display the formula and result
-st.write("### Formula Calculation")
-st.write(f"Formula: `(Option 1 + Option 2) * Option 3`")
-st.write(f"Result: `{formula_result}`")
 
 # Conditional outputs based on the formula result
 st.write("### Result Analysis")
