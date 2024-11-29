@@ -13,12 +13,10 @@ if not st.session_state.logged_in:
         # Simple check for demonstration purposes
         if username == "insegnante1" and password == "password123":
             st.session_state.logged_in = True
-            st.success("Accesso effettuato con successo!")
-            st.experimental_rerun()  # Refresh the app to show the main interface
+            st.success("Accesso effettuato con successo! Aggiorna la pagina per continuare.")
         else:
             st.error("Nome utente o password errati. Riprova.")
-    # Stop rendering the main app if not logged in
-    st.stop()
+    st.stop()  # Stop further execution if not logged in
 
 # ---- MAIN APPLICATION ----
 st.header("Benvenuta sul PISA, il tuo aiuto nell'interpretazione e la raccolta delle capacità socio-emotive!")
