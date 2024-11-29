@@ -23,55 +23,87 @@ if not openai_api_key:
 else:
     openai.api_key = openai_api_key
 
-    # ---- PART 1: FORMULA-BASED INTERACTIVE DASHBOARD ----
-    st.header("📐 Part 1: Formula-Based Interactive Dashboard")
+# ---- PART 1: FORMULA-BASED INTERACTIVE DASHBOARD WITH STUDENT MANAGEMENT ----
+st.header("📐 Part 1: Formula-Based Interactive Dashboard with Student Management")
 
-    # Dropdown options
-    option1_values = [10, 20, 30, 40, 50]
-    option2_values = [5, 15, 25, 35, 45]
-    option3_values = [1, 2, 3, 4, 5]
+# Sidebar for managing classes and students
+st.sidebar.header("Class and Student Management")
+class_name = st.sidebar.text_input("Enter Class Name", placeholder="e.g., Math 101")
 
-    # Sidebar for inputs
-    st.sidebar.header("Input Parameters")
-    option1 = st.sidebar.selectbox("Select Value for Option 1", option1_values)
-    option2 = st.sidebar.selectbox("Select Value for Option 2", option2_values)
-    option3 = st.sidebar.selectbox("Select Value for Option 3", option3_values)
+# Persistent storage for classes and students
+if "classes" not in st.session_state:
+    st.session_state.classes = {}
 
-    # Formula calculation
-    formula_result = (option1 + option2) * option3
+# Create a new class
+if class_name:
+    if st.sidebar.button("Create Class"):
+        if class_name not in st.session_state.classes:
+            st.session_state.classes[class_name] = {}
+            st.success(f"Class '{class_name}' created successfully!")
+        else:
+            st.warning(f"Class '{class_name}' already exists.")
 
-    # Define ranges and messages
-    ranges = {
-        (0, 99): "The result is less than 100. Everything looks good!",
-        (100, 199): "The result is between 100 and 200. Be cautious!",
-        (200, float('inf')): "The result is greater than 200. Immediate action is needed!"
-    }
+# Select a class
+if st.session_state.classes:
+    selected_class = st.sidebar.selectbox("Select a Class", list(st.session_state.classes.keys()))
+else:
+    selected_class = None
 
-    # Function to get the message
-    def get_message(value):
-        for (low, high), message in ranges.items():
-            if low <= value <= high:
-                return message
+# Add a student to the selected class
+if selected_class:
+    st.sidebar.subheader(f"Manage Students in {selected_class}")
+    student_name = st.sidebar.text_input("Enter Student Name", placeholder="e.g., John Doe")
 
-    # Display the message
-    st.write("### Formula Calculation")
-    st.write(f"Formula: `(Option 1 + Option 2) * Option 3`")
-    st.write(f"Result: `{formula_result}`")
+    if student_name and st.sidebar.button("Add Student"):
+        if student_name not in st.session_state.classes[selected_class]:
+            st.session_state.classes[selected_class][student_name] = {"Option 1": None, "Option 2": None, "Option 3": None}
+            st.success(f"Student '{student_name}' added to class '{selected_class}'!")
+        else:
+            st.warning(f"Student '{student_name}' already exists in class '{selected_class}'.")
 
-    message = get_message(formula_result)
-    if "less than 100" in message:
-        st.success(message)
-    elif "between 100" in message:
-        st.warning(message)
+# Display students in the selected class
+if selected_class:
+    st.subheader(f"Students in {selected_class}")
+    students = st.session_state.classes[selected_class]
+    if students:
+        for student, variables in students.items():
+            st.write(f"**{student}**")
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                option1 = st.number_input(f"{student} - Option 1", min_value=10, max_value=50, value=variables["Option 1"] or 10, key=f"{student}_Option1")
+            with col2:
+                option2 = st.number_input(f"{student} - Option 2", min_value=5, max_value=45, value=variables["Option 2"] or 5, key=f"{student}_Option2")
+            with col3:
+                option3 = st.number_input(f"{student} - Option 3", min_value=1, max_value=5, value=variables["Option 3"] or 1, key=f"{student}_Option3")
+
+            # Save updated variables
+            st.session_state.classes[selected_class][student] = {"Option 1": option1, "Option 2": option2, "Option 3": option3}
+
+            # Calculate the formula for the student
+            formula_result = (option1 + option2) * option3
+
+            # Define ranges and messages
+            ranges = {
+                (0, 99): "The result is less than 100. Everything looks good!",
+                (100, 199): "The result is between 100 and 200. Be cautious!",
+                (200, float('inf')): "The result is greater than 200. Immediate action is needed!"
+            }
+
+            # Display result
+            def get_message(value):
+                for (low, high), message in ranges.items():
+                    if low <= value <= high:
+                        return message
+
+            message = get_message(formula_result)
+            if "less than 100" in message:
+                st.success(message)
+            elif "between 100" in message:
+                st.warning(message)
+            else:
+                st.error(message)
     else:
-        st.error(message)
-
-    # Debug information
-    with st.expander("Debug Information"):
-        st.write(f"Option 1 Selected: `{option1}`")
-        st.write(f"Option 2 Selected: `{option2}`")
-        st.write(f"Option 3 Selected: `{option3}`")
-        st.write(f"Formula Result: `{formula_result}`")
+        st.info("No students in this class yet.")
 
 import os
 import pdfplumber
