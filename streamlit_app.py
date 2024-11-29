@@ -1,7 +1,7 @@
 import streamlit as st
 
 # ---- TEACHER-GUIDED STUDENT INPUT ----
-st.header("📐 Teacher-Guided Student Input Dashboard")
+st.header("Benvenuta sul SussiApp, il tuo aiuto nell'interpretazione delle capacità socio-emotive!")
 
 # Persistent storage for student data
 if "student_data" not in st.session_state:
@@ -11,47 +11,47 @@ if "student_data" not in st.session_state:
 st.sidebar.header("Students List")
 if st.session_state.student_data:
     student_list = list(st.session_state.student_data.keys())
-    selected_student = st.sidebar.selectbox("Select a Student to View Details", student_list)
+    selected_student = st.sidebar.selectbox("Seleziona una studentessa per vedere i dettagli", student_list)
 else:
-    st.sidebar.write("No students added yet.")
+    st.sidebar.write("Non è stato aggiunto ancora uno studente!")
     selected_student = None
 
 # Display details of the selected student
 if selected_student:
-    st.sidebar.write(f"### {selected_student}'s Details")
+    st.sidebar.write(f"### I dettagli di {selected_student}")
     student_details = st.session_state.student_data[selected_student]
     for key, value in student_details.items():
         st.sidebar.write(f"- **{key}**: {value}")
 
 # Teacher enters the student's name
-student_name = st.text_input("Enter the Student's Name", placeholder="e.g., John Doe")
+student_name = st.text_input("Inserisci il nome dello studente", placeholder="e.g., Mario Rossi")
 
 if student_name:
-    st.write(f"### Demographic Information for **{student_name}**")
+    st.write(f"### Informazioni demografiche di **{student_name}**")
 
     # Collect demographic data
-    age = st.number_input("Enter the student's age", min_value=3, max_value=100, value=16, step=1, key="age")
-    gender = st.selectbox("Select the student's gender", options=["Male", "Female", "Non-binary", "Other"], key="gender")
+    age = st.number_input("Inserisci l'età dello studente", min_value=3, max_value=100, value=16, step=1, key="age")
+    gender = st.selectbox("Seleziona il genere dello studente", options=["Maschio", "Femmina", "Non-Binario", "Altro"], key="gender")
     grade_level = st.selectbox(
-        "Select the student's grade level",
-        options=["Kindergarten", "1st Grade", "2nd Grade", "3rd Grade", "4th Grade", "5th Grade", "Middle School", "High School", "College"],
+        "Seleziona il grado dello studente:",
+        options=["Asilo", "Prima elementare", "Seconda elementare", "Terza elementare", "Quarta elementare", "Quinta elementare", "Scuola media", "Scuola superiore", "Università".],
         key="grade_level"
     )
 
-    st.write(f"### Guiding questions for **{student_name}**")
+    st.write(f"### Domande di accompagnamento di **{student_name}**")
 
     # Display all questions at once
-    question1_prompt = "How many hours did the student spend studying this week?"
+    question1_prompt = "Quante ore ha dedicato lo studente allo studio questa settimana?"
     study_hours = st.number_input(
         f"1. {question1_prompt}", min_value=0, max_value=100, value=0, key="study_hours"
     )
 
-    question2_prompt = "How many assignments did the student complete this week?"
+    question2_prompt = "Quanti compiti ha completato lo studente questa settimana?"
     assignments_completed = st.number_input(
         f"2. {question2_prompt}", min_value=0, max_value=50, value=0, key="assignments_completed"
     )
 
-    question3_prompt = "How many classes did the student attend this week?"
+    question3_prompt = "Quante lezioni ha frequentato lo studente questa settimana?"
     classes_attended = st.number_input(
         f"3. {question3_prompt}", min_value=0, max_value=10, value=0, key="classes_attended"
     )
@@ -62,11 +62,11 @@ if student_name:
     # Show feedback based on the result
     st.write("### Feedback")
     if formula_result < 100:
-        st.success("The student is on track! Great job!")
+        st.success("Daje duro.")
     elif 100 <= formula_result < 200:
-        st.warning("The student is doing okay but could improve.")
+        st.warning("Occhio bro.")
     else:
-        st.error("The student needs significant improvement.")
+        st.error("Vez sei fuori")
 
     # Save student data to session state
     st.session_state.student_data[student_name] = {
@@ -84,12 +84,12 @@ if student_name:
         # Simulate uploading the data (e.g., sending it to a backend API or database)
         mock_server_response = {
             "status": "success",
-            "message": f"Data for {student_name} uploaded successfully.",
+            "message": f"Dati di {student_name} caricati con successo.",
             "data": st.session_state.student_data[student_name],
         }
 
         # Display a confirmation
-        st.success(f"Data for {student_name} has been uploaded successfully!")
+        st.success(f"Dati di {student_name} caricati con successo!")
 
 # View all entered student data
 if st.session_state.student_data:
