@@ -1,6 +1,6 @@
 streamlit
-pandas
-pdfplumber
 openai
-sklearn.metrics.pairwise 
+pdfplumber
 numpy
+scikit-learn
+pandas
