@@ -1,42 +1,166 @@
+import os
 import streamlit as st
+import pandas as pd
+import pdfplumber
+import openai
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
 
-# Title of the dashboard
-st.title("📊 Interactive Formula-Based Dashboard")
-
-# Description
-st.write(
-    "This dashboard allows you to choose values from dropdown menus, calculates a formula "
-    "based on the selected inputs, and displays different outputs depending on the result."
+# ---- GLOBAL CONFIGURATION ----
+st.title("📊 Interactive Dashboard")
+st.write("This dashboard combines two functionalities:")
+st.markdown(
+    """
+1. **Formula-Based Interactive Dashboard**: Select values to compute a formula and see the results dynamically.
+2. **Document-Based RAG Question Answering**: Upload a document, and ask questions about its contents using OpenAI's ChatGPT API.
+"""
 )
 
-# Define the dropdown options for the user
-option1_values = [10, 20, 30, 40, 50]  # Example values for Option 1
-option2_values = [5, 15, 25, 35, 45]   # Example values for Option 2
-option3_values = [1, 2, 3, 4, 5]       # Example values for Option 3
-
-# Sidebar for user input
-st.sidebar.header("Input Parameters")
-option1 = st.sidebar.selectbox("Select Value for Option 1", option1_values)
-option2 = st.sidebar.selectbox("Select Value for Option 2", option2_values)
-option3 = st.sidebar.selectbox("Select Value for Option 3", option3_values)
-
-# Formula to calculate the output based on selected inputs
-# Example formula: (option1 + option2) * option3
-formula_result = (option1 + option2) * option3
-
-
-# Conditional outputs based on the formula result
-st.write("### Result Analysis")
-if formula_result < 100:
-    st.success("The result is less than 100. Everything looks good!")
-elif 100 <= formula_result < 200:
-    st.warning("The result is between 100 and 200. Be cautious!")
+# Ask the user for their OpenAI API key
+openai_api_key = st.text_input("OpenAI API Key", type="password")
+if not openai_api_key:
+    st.info("Please enter your OpenAI API key to continue.", icon="🗝️")
 else:
-    st.error("The result is greater than 200. Immediate action is needed!")
+    openai.api_key = openai_api_key
 
-# Debugging or optional detailed output
-with st.expander("Detailed Inputs and Calculations"):
-    st.write(f"Option 1 Selected: `{option1}`")
-    st.write(f"Option 2 Selected: `{option2}`")
-    st.write(f"Option 3 Selected: `{option3}`")
-    st.write(f"Formula Result: `{formula_result}`")
+    # ---- PART 1: FORMULA-BASED INTERACTIVE DASHBOARD ----
+    st.header("📐 Part 1: Formula-Based Interactive Dashboard")
+
+    # Dropdown options
+    option1_values = [10, 20, 30, 40, 50]
+    option2_values = [5, 15, 25, 35, 45]
+    option3_values = [1, 2, 3, 4, 5]
+
+    # Sidebar for inputs
+    st.sidebar.header("Input Parameters")
+    option1 = st.sidebar.selectbox("Select Value for Option 1", option1_values)
+    option2 = st.sidebar.selectbox("Select Value for Option 2", option2_values)
+    option3 = st.sidebar.selectbox("Select Value for Option 3", option3_values)
+
+    # Formula calculation
+    formula_result = (option1 + option2) * option3
+
+    # Define ranges and messages
+    ranges = {
+        (0, 99): "The result is less than 100. Everything looks good!",
+        (100, 199): "The result is between 100 and 200. Be cautious!",
+        (200, float('inf')): "The result is greater than 200. Immediate action is needed!"
+    }
+
+    # Function to get the message
+    def get_message(value):
+        for (low, high), message in ranges.items():
+            if low <= value <= high:
+                return message
+
+    # Display the message
+    st.write("### Formula Calculation")
+    st.write(f"Formula: `(Option 1 + Option 2) * Option 3`")
+    st.write(f"Result: `{formula_result}`")
+
+    message = get_message(formula_result)
+    if "less than 100" in message:
+        st.success(message)
+    elif "between 100" in message:
+        st.warning(message)
+    else:
+        st.error(message)
+
+    # Debug information
+    with st.expander("Debug Information"):
+        st.write(f"Option 1 Selected: `{option1}`")
+        st.write(f"Option 2 Selected: `{option2}`")
+        st.write(f"Option 3 Selected: `{option3}`")
+        st.write(f"Formula Result: `{formula_result}`")
+
+    # ---- PART 2: DOCUMENT-BASED RAG QUESTION ANSWERING ----
+    st.header("📄 Part 2: Document-Based RAG Question Answering")
+
+    # Upload a document
+    uploaded_file = st.file_uploader("Upload a document (.txt, .md, .pdf, .xlsx)", type=("txt", "md", "pdf", "xlsx"))
+
+    # Ask the user for a question
+    question = st.text_area(
+        "Now ask a question about the document!",
+        placeholder="e.g., Summarize this document.",
+        disabled=not uploaded_file,
+    )
+
+    if uploaded_file and question:
+        with st.spinner("Processing your request..."):
+            try:
+                # Step 1: Extract text from the document
+                def extract_text_from_file(file):
+                    file_type = file.name.split(".")[-1].lower()
+                    if file_type == "pdf":
+                        with pdfplumber.open(file) as pdf:
+                            text = ""
+                            for page in pdf.pages:
+                                text += page.extract_text()
+                        return text
+                    elif file_type in ["txt", "md"]:
+                        return file.read().decode("utf-8")
+                    elif file_type == "xlsx":
+                        df = pd.read_excel(file)
+                        return "\n".join(df.astype(str).apply(lambda x: " ".join(x), axis=1))
+                    else:
+                        st.error("Unsupported file type.")
+                        return None
+
+                document_text = extract_text_from_file(uploaded_file)
+                if not document_text:
+                    st.error("Could not extract text from the document.")
+                    st.stop()
+
+                # Step 2: Generate embeddings for the document chunks
+                st.info("Step 2: Generating embeddings for the document...")
+                chunk_size = 500
+                document_chunks = [
+                    document_text[i:i + chunk_size]
+                    for i in range(0, len(document_text), chunk_size)
+                ]
+
+                embeddings = []
+                for chunk in document_chunks:
+                    response = openai.Embedding.create(
+                        model="text-embedding-ada-002",
+                        input=chunk
+                    )
+                    embeddings.append(response["data"][0]["embedding"])
+
+                # Step 3: Generate embeddings for the question
+                st.info("Step 3: Generating embeddings for the question...")
+                question_embedding_response = openai.Embedding.create(
+                    model="text-embedding-ada-002",
+                    input=question
+                )
+                question_embedding = question_embedding_response["data"][0]["embedding"]
+
+                # Step 4: Find the most relevant chunk using cosine similarity
+                st.info("Step 4: Finding the most relevant chunk...")
+                similarities = cosine_similarity([question_embedding], embeddings)
+                most_relevant_chunk_index = np.argmax(similarities)
+                most_relevant_chunk = document_chunks[most_relevant_chunk_index]
+
+                # Step 5: Use ChatGPT API to answer the question
+                st.info("Step 5: Generating the answer using ChatGPT API...")
+                completion_response = openai.ChatCompletion.create(
+                    model="gpt-3.5-turbo",  # Replace with "gpt-4" if needed
+                    messages=[
+                        {"role": "system", "content": "You are a helpful assistant."},
+                        {"role": "user", "content": f"Based on the following context, answer the question:\n\nContext: {most_relevant_chunk}\n\nQuestion: {question}"}
+                    ]
+                )
+                answer = completion_response["choices"][0]["message"]["content"]
+
+                # Display the result
+                st.success("Here is the answer:")
+                st.write(f"**Answer:** {answer}")
+
+                # Debug Information
+                with st.expander("Debug Information"):
+                    st.write(f"**Most Relevant Chunk:**\n{most_relevant_chunk}")
+                    st.json({"similarities": similarities.tolist()})
+
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
