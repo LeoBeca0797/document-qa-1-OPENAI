@@ -29,7 +29,7 @@ if cookies["logged_in"] == "false":
                 <script>
                 setTimeout(function() {
                     window.location.reload();
-                }, 2000);  // Reload after 2 second
+                }, 1000);  // Reload after 1 second
                 </script>
                 """,
                 unsafe_allow_html=True,
@@ -40,7 +40,7 @@ if cookies["logged_in"] == "false":
     st.stop()
 
 # ---- Main Application ----
-st.header("Benvenuta sul PISA, il tuo aiuto nell'interpretazione e la raccolta delle capacità socio-emotive!")
+st.header("Benvenuta su PISE, il tuo aiuto nell'interpretazione e la raccolta delle capacità socio-emotive!")
 
 # Persistent storage for student data
 if "student_data" not in st.session_state:
@@ -73,4 +73,56 @@ if student_name:
     gender = st.selectbox("Seleziona il genere dello studente", options=["Maschio", "Femmina", "Non-Binario", "Altro"], key="gender")
     grade_level = st.selectbox(
         "Seleziona il livello scolastico dello studente",
-        options=["Asilo", "Prima elementare", "Seconda elementare",
+        options=["Asilo", "Prima elementare", "Seconda elementare", "Terza elementare", "Quarta elementare", "Quinta elementare", "Scuola media", "Scuola superiore", "Università"]
+    )
+
+    st.write(f"### Domande di accompagnamento di **{student_name}**")
+
+    # Display all questions at once
+    question1_prompt = "Quante ore ha dedicato lo studente allo studio questa settimana?"
+    study_hours = st.number_input(
+        f"1. {question1_prompt}", min_value=0, max_value=100, value=0, key="study_hours"
+    )
+
+    question2_prompt = "Quanti compiti ha completato lo studente questa settimana?"
+    assignments_completed = st.number_input(
+        f"2. {question2_prompt}", min_value=0, max_value=50, value=0, key="assignments_completed"
+    )
+
+    question3_prompt = "Quante lezioni ha frequentato lo studente questa settimana?"
+    classes_attended = st.number_input(
+        f"3. {question3_prompt}", min_value=0, max_value=10, value=0, key="classes_attended"
+    )
+
+    # Perform calculation (formula is hidden)
+    formula_result = (study_hours * 2) + (assignments_completed * 1.5) + (classes_attended * 3)
+
+    # Show feedback based on the result
+    st.write("### Feedback")
+    if formula_result < 100:
+        st.success("Daje duro.")
+    elif 100 <= formula_result < 200:
+        st.warning("Occhio bro.")
+    else:
+        st.error("Vez sei fuori")
+
+    # Save student data to session state
+    st.session_state.student_data[student_name] = {
+        "Età": age,
+        "Genere": gender,
+        "Livello Scolastico": grade_level,
+        "Ore di Studio": study_hours,
+        "Compiti Completati": assignments_completed,
+        "Lezioni Frequentate": classes_attended,
+        "Risultato": formula_result,
+    }
+
+    # Mock data upload
+    if st.button("Carica i Dati sul Server"):
+        st.success(f"Dati di {student_name} caricati con successo!")
+
+# View all entered student data
+if st.session_state.student_data:
+    with st.expander("Visualizza Tutti i Dati degli Studenti"):
+        st.write("### Dati Raccolti degli Studenti")
+        st.json(st.session_state.student_data)
