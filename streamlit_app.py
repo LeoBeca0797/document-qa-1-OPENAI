@@ -1,7 +1,7 @@
 import streamlit as st
 
 # ---- Add Logo on Left Border ----
-logo_path = "./logo/PISE.png"
+logo_path = "/logo/PISE.png"
 st.sidebar.markdown(
     f"""
     <style>
