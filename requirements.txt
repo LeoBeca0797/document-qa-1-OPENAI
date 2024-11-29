@@ -1,2 +1,7 @@
-streamlit
+os
+streamlit as st
+pandas as pd
+pdfplumber
 openai
+sklearn.metrics.pairwise 
+numpy
