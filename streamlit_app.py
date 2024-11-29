@@ -1,7 +1,7 @@
 import streamlit as st
 
 # ---- TEACHER-GUIDED STUDENT INPUT ----
-st.header("Benvenuta sul SussiApp, il tuo aiuto nell'interpretazione delle capacità socio-emotive!")
+st.header("Benvenuta sul PISA, il tuo aiuto nell'iterpretazione e la raccolta delle capacità socio-emotive!")
 
 # Persistent storage for student data
 if "student_data" not in st.session_state:
