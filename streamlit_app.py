@@ -22,25 +22,13 @@ if cookies["logged_in"] == "false":
         if username == "insegnante1" and password == "password123":
             cookies["logged_in"] = "true"
             cookies.save()  # Save cookies
-
-            # Use JavaScript to reload the page automatically
-            st.write(
-                """
-                <script>
-                setTimeout(function() {
-                    window.location.reload();
-                }, 1000);  // Reload after 1 second
-                </script>
-                """,
-                unsafe_allow_html=True,
-            )
-            st.success("Accesso effettuato con successo! Ricaricamento automatico in corso...")
+            st.experimental_rerun()  # Reload the app to proceed
         else:
             st.error("Nome utente o password errati. Riprova.")
     st.stop()
 
 # ---- Main Application ----
-st.header("Benvenuta su PISE, il tuo aiuto nell'interpretazione e la raccolta delle capacità socio-emotive!")
+st.header("Benvenuta sul PISA, il tuo aiuto nell'interpretazione e la raccolta delle capacità socio-emotive!")
 
 # Persistent storage for student data
 if "student_data" not in st.session_state:
