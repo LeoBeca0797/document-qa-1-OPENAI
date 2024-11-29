@@ -3,7 +3,7 @@ from streamlit_cookies_manager import EncryptedCookieManager
 
 # ---- Set up cookies manager ----
 cookies = EncryptedCookieManager(
-    prefix="pisa_app_",  # Add a prefix to avoid conflicts
+    prefix="PISE_app_",  # Add a prefix to avoid conflicts
     password="a-very-secret-key"  # Replace with a strong secret key
 )
 if not cookies.ready():
@@ -49,7 +49,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.markdown('<div class="main-header">Benvenuta sul PISA</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-header">Benvenuta sul PISE</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub-header">Il tuo aiuto nell\'interpretazione e la raccolta delle capacità socio-emotive!</div>', unsafe_allow_html=True)
 
 # Sidebar with Styled Header
@@ -92,11 +92,9 @@ if student_name:
     grade_level = st.selectbox(
         "📚 Livello scolastico",
         options=[
-            "Asilo", 
             "Prima elementare", "Seconda elementare", "Terza elementare", "Quarta elementare", "Quinta elementare",
             "Prima media", "Seconda media", "Terza media",
-            "Prima superiore", "Seconda superiore", "Terza superiore", "Quarta superiore", "Quinta superiore",
-            "Università"
+            "Prima superiore", "Seconda superiore", "Terza superiore", "Quarta superiore", "Quinta superiore"
         ],
     )
 
@@ -110,21 +108,24 @@ if student_name:
     urbanization_level = st.selectbox(
         "🏙️ Livello di urbanizzazione del sito scolastico", 
         options=["Urbano", "Rurale"], 
+                index=0,
         key="urbanization_level"
     )
     migration_background = st.radio(
         "🌍 Background migratorio", 
         options=["Sì", "No"], 
-        key="migration_background"
+                index=0, key="migration_background"
     )
     parental_employment_status = st.selectbox(
         "👔 Status occupazionale dei genitori", 
         options=["Basso", "Medio", "Alto"], 
+                index=0, 
         key="parental_employment_status"
     )
     parental_graduate = st.radio(
         "🎓 Almeno uno dei due genitori è laureato?", 
         options=["Sì", "No"], 
+                index=0,
         key="parental_graduate"
     )
     max_parent_education = st.selectbox(
@@ -137,6 +138,7 @@ if student_name:
             "Laurea magistrale", 
             "Dottorato"
         ],
+                index=0,
         key="max_parent_education"
     )
 
@@ -180,4 +182,4 @@ if st.session_state.student_data:
         st.json(st.session_state.student_data)
 
 # Footer
-st.markdown('<div class="footer">© 2024 PISA Support Tool</div>', unsafe_allow_html=True)
+st.markdown('<div class="footer">© 2024 PISE Support Tool</div>', unsafe_allow_html=True)
