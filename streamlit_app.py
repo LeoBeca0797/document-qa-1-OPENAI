@@ -22,7 +22,16 @@ if cookies["logged_in"] == "false":
         if username == "insegnante1" and password == "password123":
             cookies["logged_in"] = "true"
             cookies.save()  # Save cookies
-            st.experimental_rerun()  # Reload the app to proceed
+
+            # Inject JavaScript to reload the page
+            st.markdown(
+                """
+                <script>
+                window.location.reload();
+                </script>
+                """,
+                unsafe_allow_html=True,
+            )
         else:
             st.error("Nome utente o password errati. Riprova.")
     st.stop()
