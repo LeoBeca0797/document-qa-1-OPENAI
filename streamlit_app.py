@@ -33,10 +33,9 @@ if student_name:
     age = st.number_input("Inserisci l'età dello studente", min_value=3, max_value=100, value=16, step=1, key="age")
     gender = st.selectbox("Seleziona il genere dello studente", options=["Maschio", "Femmina", "Non-Binario", "Altro"], key="gender")
     grade_level = st.selectbox(
-        "Seleziona il grado dello studente:",
-        options=["Asilo", "Prima elementare", "Seconda elementare", "Terza elementare", "Quarta elementare", "Quinta elementare", "Scuola media", "Scuola superiore", "Università".],
-        key="grade_level"
-    )
+    "Select the student's grade level",
+    options=["Asilo", "Prima elementare", "Seconda elementare", "Terza elementare", "Quarta elementare", "Quinta elementare", "Scuola media", "Scuola superiore", "Università"]
+)
 
     st.write(f"### Domande di accompagnamento di **{student_name}**")
 
