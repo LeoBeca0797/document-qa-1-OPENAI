@@ -24,7 +24,7 @@ st.sidebar.markdown(
 )
 
 # ---- TEACHER-GUIDED STUDENT INPUT ----
-st.header("Benvenuta sul PISA, il tuo aiuto nell'interpretazione e la raccolta delle capacità socio-emotive!")
+st.header("Benvenuta sul PISE, il tuo aiuto nell'interpretazione e la raccolta delle capacità socio-emotive!")
 
 # Persistent storage for student data
 if "student_data" not in st.session_state:
