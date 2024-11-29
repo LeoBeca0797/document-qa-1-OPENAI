@@ -27,26 +27,24 @@ student_name = st.text_input("Enter the Student's Name", placeholder="e.g., John
 if student_name:
     st.write(f"### Guiding questions for **{student_name}**")
 
-    # Step 1: Guiding the teacher with the first question
+    # Step 1: Display all three questions
     question1_prompt = "How many hours did the student spend studying this week?"
     st.write(f"1. {question1_prompt}")
     study_hours = st.number_input("Enter the number of hours", min_value=0, max_value=100, value=0, key="study_hours")
 
-    # Step 2: Follow-up question 1 (always appears after the first question)
     question2_prompt = "How many assignments did the student complete this week?"
     st.write(f"2. {question2_prompt}")
     assignments_completed = st.number_input("Enter the number of assignments", min_value=0, max_value=50, value=0, key="assignments_completed")
 
-    # Step 3: Follow-up question 2 (always appears after the second question)
     question3_prompt = "How many classes did the student attend this week?"
     st.write(f"3. {question3_prompt}")
     classes_attended = st.number_input("Enter the number of classes", min_value=0, max_value=10, value=0, key="classes_attended")
 
-    # Step 4: Mock formula calculation
+    # Step 2: Mock formula calculation
     # Example formula: (study_hours * 2) + (assignments_completed * 1.5) + (classes_attended * 3)
     formula_result = (study_hours * 2) + (assignments_completed * 1.5) + (classes_attended * 3)
 
-    # Step 5: Show the result and feedback based on the formula
+    # Step 3: Show the result and feedback based on the formula
     st.write("### Formula Calculation and Feedback")
     st.write(f"Formula: `(study_hours * 2) + (assignments_completed * 1.5) + (classes_attended * 3)`")
     st.write(f"Result: `{formula_result}`")
@@ -66,7 +64,7 @@ if student_name:
         "Result": formula_result
     }
 
-    # Step 6: Mock data upload
+    # Step 4: Mock data upload
     if st.button("Upload Data to Server"):
         # Simulate uploading the data (e.g., sending it to a backend API or database)
         mock_server_response = {
