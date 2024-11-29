@@ -1,39 +1,35 @@
 import streamlit as st
 
-# ---- Add Logo on Left Border ----
-logo_path = "/logo/PISE.png"
-st.sidebar.markdown(
-    f"""
-    <style>
-        .sidebar .sidebar-content {{
-            position: relative;
-        }}
-        .sidebar-content:before {{
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 150px;
-            background: url('{logo_path}') no-repeat center center;
-            background-size: contain;
-        }}
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-# ---- TEACHER-GUIDED STUDENT INPUT ----
-st.header("Benvenuta sul PISE, il tuo aiuto nell'interpretazione e la raccolta delle capacità socio-emotive!")
+# ---- FAKE USER LOGIN ----
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+
+if not st.session_state.logged_in:
+    st.title("Accesso al PISA")
+    username = st.text_input("Inserisci il tuo nome utente", placeholder="Es: insegnante1")
+    password = st.text_input("Inserisci la tua password", type="password", placeholder="Es: password123")
+
+    if st.button("Accedi"):
+        # Simple check for demonstration purposes
+        if username == "insegnante1" and password == "password123":
+            st.session_state.logged_in = True
+            st.success("Accesso effettuato con successo!")
+        else:
+            st.error("Nome utente o password errati. Riprova.")
+    st.stop()
+
+# ---- MAIN APPLICATION ----
+st.header("Benvenuta sul PISA, il tuo aiuto nell'interpretazione e la raccolta delle capacità socio-emotive!")
 
 # Persistent storage for student data
 if "student_data" not in st.session_state:
     st.session_state.student_data = {}
 
 # Sidebar section for viewing added students
-st.sidebar.header("Students List")
+st.sidebar.header("Elenco Studenti")
 if st.session_state.student_data:
     student_list = list(st.session_state.student_data.keys())
-    selected_student = st.sidebar.selectbox("Seleziona una studentessa per vedere i dettagli", student_list)
+    selected_student = st.sidebar.selectbox("Seleziona uno studente per vedere i dettagli", student_list)
 else:
     st.sidebar.write("Non è stato aggiunto ancora uno studente!")
     selected_student = None
@@ -46,7 +42,7 @@ if selected_student:
         st.sidebar.write(f"- **{key}**: {value}")
 
 # Teacher enters the student's name
-student_name = st.text_input("Inserisci il nome dello studente", placeholder="e.g., Mario Rossi")
+student_name = st.text_input("Inserisci il nome dello studente", placeholder="Es: Mario Rossi")
 
 if student_name:
     st.write(f"### Informazioni demografiche di **{student_name}**")
@@ -55,9 +51,9 @@ if student_name:
     age = st.number_input("Inserisci l'età dello studente", min_value=3, max_value=100, value=16, step=1, key="age")
     gender = st.selectbox("Seleziona il genere dello studente", options=["Maschio", "Femmina", "Non-Binario", "Altro"], key="gender")
     grade_level = st.selectbox(
-    "Select the student's grade level",
-    options=["Asilo", "Prima elementare", "Seconda elementare", "Terza elementare", "Quarta elementare", "Quinta elementare", "Scuola media", "Scuola superiore", "Università"]
-)
+        "Seleziona il livello scolastico dello studente",
+        options=["Asilo", "Prima elementare", "Seconda elementare", "Terza elementare", "Quarta elementare", "Quinta elementare", "Scuola media", "Scuola superiore", "Università"]
+    )
 
     st.write(f"### Domande di accompagnamento di **{student_name}**")
 
@@ -91,29 +87,22 @@ if student_name:
 
     # Save student data to session state
     st.session_state.student_data[student_name] = {
-        "Age": age,
-        "Gender": gender,
-        "Grade Level": grade_level,
-        "Study Hours": study_hours,
-        "Assignments Completed": assignments_completed,
-        "Classes Attended": classes_attended,
-        "Result": formula_result,
+        "Età": age,
+        "Genere": gender,
+        "Livello Scolastico": grade_level,
+        "Ore di Studio": study_hours,
+        "Compiti Completati": assignments_completed,
+        "Lezioni Frequentate": classes_attended,
+        "Risultato": formula_result,
     }
 
     # Mock data upload
-    if st.button("Upload Data to Server"):
+    if st.button("Carica i Dati sul Server"):
         # Simulate uploading the data (e.g., sending it to a backend API or database)
-        mock_server_response = {
-            "status": "success",
-            "message": f"Dati di {student_name} caricati con successo.",
-            "data": st.session_state.student_data[student_name],
-        }
-
-        # Display a confirmation
         st.success(f"Dati di {student_name} caricati con successo!")
 
 # View all entered student data
 if st.session_state.student_data:
-    with st.expander("View All Student Data"):
-        st.write("### Collected Student Data")
+    with st.expander("Visualizza Tutti i Dati degli Studenti"):
+        st.write("### Dati Raccolti degli Studenti")
         st.json(st.session_state.student_data)
