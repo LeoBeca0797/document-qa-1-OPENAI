@@ -1,24 +1,33 @@
 import streamlit as st
+from streamlit_cookies_manager import EncryptedCookieManager
 
-# ---- FAKE USER LOGIN ----
-if "logged_in" not in st.session_state:
-    st.session_state.logged_in = False
+# ---- Set up cookies manager ----
+cookies = EncryptedCookieManager(
+    prefix="pisa_app_",  # Add a prefix to avoid conflicts
+    password="a-very-secret-key"  # Replace with a strong secret key
+)
+if not cookies.ready():
+    st.stop()
 
-if not st.session_state.logged_in:
+# ---- Check Login Status ----
+if "logged_in" not in cookies:
+    cookies["logged_in"] = "false"
+
+if cookies["logged_in"] == "false":
     st.title("Accesso al PISA")
     username = st.text_input("Inserisci il tuo nome utente", placeholder="Es: insegnante1")
     password = st.text_input("Inserisci la tua password", type="password", placeholder="Es: password123")
 
     if st.button("Accedi"):
-        # Simple check for demonstration purposes
         if username == "insegnante1" and password == "password123":
-            st.session_state.logged_in = True
-            st.success("Accesso effettuato con successo! Aggiorna la pagina per continuare.")
+            cookies["logged_in"] = "true"
+            cookies.save()  # Save cookies
+            st.success("Accesso effettuato con successo! Ricarica la pagina per continuare.")
         else:
             st.error("Nome utente o password errati. Riprova.")
-    st.stop()  # Stop further execution if not logged in
+    st.stop()
 
-# ---- MAIN APPLICATION ----
+# ---- Main Application ----
 st.header("Benvenuta sul PISA, il tuo aiuto nell'interpretazione e la raccolta delle capacità socio-emotive!")
 
 # Persistent storage for student data
@@ -98,7 +107,6 @@ if student_name:
 
     # Mock data upload
     if st.button("Carica i Dati sul Server"):
-        # Simulate uploading the data (e.g., sending it to a backend API or database)
         st.success(f"Dati di {student_name} caricati con successo!")
 
 # View all entered student data
