@@ -1,7 +1,30 @@
 import streamlit as st
 
+# ---- Add Logo on Left Border ----
+logo_path = "logo/PISE.png"
+st.sidebar.markdown(
+    f"""
+    <style>
+        .sidebar .sidebar-content {{
+            position: relative;
+        }}
+        .sidebar-content:before {{
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background: url('{./logo/PISE.png}') no-repeat center center;
+            background-size: contain;
+        }}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # ---- TEACHER-GUIDED STUDENT INPUT ----
-st.header("Benvenuta sul PISA, il tuo aiuto nell'iterpretazione e la raccolta delle capacità socio-emotive!")
+st.header("Benvenuta sul PISA, il tuo aiuto nell'interpretazione e la raccolta delle capacità socio-emotive!")
 
 # Persistent storage for student data
 if "student_data" not in st.session_state:
