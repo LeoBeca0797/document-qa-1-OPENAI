@@ -16,7 +16,7 @@ st.markdown(
 """
 )
 
-'''# Ask the user for their OpenAI API key
+_ ='''# Ask the user for their OpenAI API key
 openai_api_key = st.text_input("OpenAI API Key", type="password")
 if not openai_api_key:
     st.info("Please enter your OpenAI API key to continue.", icon="🗝️")
@@ -108,7 +108,7 @@ if selected_class:
 import os
 import pdfplumber
 import pandas as pd
-'''
+_ ='''
 # ---- PART 2: DOCUMENT-BASED RAG QUESTION ANSWERING ----
 st.header("📄 Part 2: Document-Based RAG Question Answering")
 
