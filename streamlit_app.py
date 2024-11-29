@@ -1,53 +1,45 @@
 import streamlit as st
-from openai import OpenAI
 
-# Show title and description.
-st.title("📄 Document question answering")
+# Title of the dashboard
+st.title("📊 Interactive Formula-Based Dashboard")
+
+# Description
 st.write(
-    "Upload a document below and ask a question about it – GPT will answer! "
-    "To use this app, you need to provide an OpenAI API key, which you can get [here](https://platform.openai.com/account/api-keys). "
+    "This dashboard allows you to choose values from dropdown menus, calculates a formula "
+    "based on the selected inputs, and displays different outputs depending on the result."
 )
 
-# Ask user for their OpenAI API key via `st.text_input`.
-# Alternatively, you can store the API key in `./.streamlit/secrets.toml` and access it
-# via `st.secrets`, see https://docs.streamlit.io/develop/concepts/connections/secrets-management
-openai_api_key = st.text_input("OpenAI API Key", type="password")
-if not openai_api_key:
-    st.info("Please add your OpenAI API key to continue.", icon="🗝️")
+# Define the dropdown options for the user
+option1_values = [10, 20, 30, 40, 50]  # Example values for Option 1
+option2_values = [5, 15, 25, 35, 45]   # Example values for Option 2
+option3_values = [1, 2, 3, 4, 5]       # Example values for Option 3
+
+# Sidebar for user input
+st.sidebar.header("Input Parameters")
+option1 = st.sidebar.selectbox("Select Value for Option 1", option1_values)
+option2 = st.sidebar.selectbox("Select Value for Option 2", option2_values)
+option3 = st.sidebar.selectbox("Select Value for Option 3", option3_values)
+
+# Formula to calculate the output based on selected inputs
+# Example formula: (option1 + option2) * option3
+formula_result = (option1 + option2) * option3
+
+# Display the formula and result
+st.write("### Formula Calculation")
+st.write(f"Formula: `(Option 1 + Option 2) * Option 3`")
+st.write(f"Result: `{formula_result}`")
+
+# Conditional outputs based on the formula result
+st.write("### Result Analysis")
+if formula_result < 100:
+    st.success("The result is less than 100. Everything looks good!")
+elif 100 <= formula_result < 200:
+    st.warning("The result is between 100 and 200. Be cautious!")
 else:
+    st.error("The result is greater than 200. Immediate action is needed!")
 
-    # Create an OpenAI client.
-    client = OpenAI(api_key=openai_api_key)
-
-    # Let the user upload a file via `st.file_uploader`.
-    uploaded_file = st.file_uploader(
-        "Upload a document (.txt or .md)", type=("txt", "md")
-    )
-
-    # Ask the user for a question via `st.text_area`.
-    question = st.text_area(
-        "Now ask a question about the document!",
-        placeholder="Can you give me a short summary?",
-        disabled=not uploaded_file,
-    )
-
-    if uploaded_file and question:
-
-        # Process the uploaded file and question.
-        document = uploaded_file.read().decode()
-        messages = [
-            {
-                "role": "user",
-                "content": f"Here's a document: {document} \n\n---\n\n {question}",
-            }
-        ]
-
-        # Generate an answer using the OpenAI API.
-        stream = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=messages,
-            stream=True,
-        )
-
-        # Stream the response to the app using `st.write_stream`.
-        st.write_stream(stream)
+# Debugging or optional detailed output
+with st.expander("Detailed Inputs and Calculations"):
+    st.write(f"Option 1 Selected: `{option1}`")
+    st.write(f"Option 2 Selected: `{option2}`")
+    st.write(f"Option 3
