@@ -1,6 +1,6 @@
 os
-streamlit as st
-pandas as pd
+streamlit
+pandas
 pdfplumber
 openai
 sklearn.metrics.pairwise 
