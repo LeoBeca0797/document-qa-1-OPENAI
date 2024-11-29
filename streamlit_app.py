@@ -42,4 +42,5 @@ else:
 with st.expander("Detailed Inputs and Calculations"):
     st.write(f"Option 1 Selected: `{option1}`")
     st.write(f"Option 2 Selected: `{option2}`")
-    st.write(f"Option 3
+    st.write(f"Option 3 Selected: `{option3}`")
+    st.write(f"Formula Result: `{formula_result}`")
