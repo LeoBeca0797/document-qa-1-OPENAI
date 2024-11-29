@@ -15,7 +15,7 @@ st.sidebar.markdown(
             left: 0;
             width: 100%;
             height: 150px;
-            background: url('{./logo/PISE.png}') no-repeat center center;
+            background: url('{"./logo/PISE.png"}') no-repeat center center;
             background-size: contain;
         }}
     </style>
