@@ -73,94 +73,111 @@ else:
         st.write(f"Option 3 Selected: `{option3}`")
         st.write(f"Formula Result: `{formula_result}`")
 
-    # ---- PART 2: DOCUMENT-BASED RAG QUESTION ANSWERING ----
-    st.header("📄 Part 2: Document-Based RAG Question Answering")
+# ---- PART 2: DOCUMENT-BASED RAG QUESTION ANSWERING ----
+st.header("📄 Part 2: Document-Based RAG Question Answering")
 
-    # Upload a document
-    uploaded_file = st.file_uploader("Upload a document (.txt, .md, .pdf, .xlsx)", type=("txt", "md", "pdf", "xlsx"))
+# Function to preload frequently used documents
+@st.cache_data
+def load_preloaded_documents():
+    """Load frequently used documents."""
+    preloaded_documents = {
+        "Document 1": "./preloaded_docs/doc1.txt",
+        "Document 2": "./preloaded_docs/doc2.pdf",
+        "Document 3": "./preloaded_docs/doc3.xlsx"
+    }
+    documents = {}
+    for name, path in preloaded_documents.items():
+        file_type = path.split(".")[-1].lower()
+        if file_type == "pdf":
+            with pdfplumber.open(path) as pdf:
+                text = "".join([page.extract_text() for page in pdf.pages])
+        elif file_type == "txt":
+            with open(path, "r") as file:
+                text = file.read()
+        elif file_type == "xlsx":
+            df = pd.read_excel(path)
+            text = "\n".join(df.astype(str).apply(lambda x: " ".join(x), axis=1))
+        else:
+            text = None
+        documents[name] = text
+    return documents
 
-    # Ask the user for a question
-    question = st.text_area(
-        "Now ask a question about the document!",
-        placeholder="e.g., Summarize this document.",
-        disabled=not uploaded_file,
-    )
+# Allow users to upload a document or choose from preloaded ones
+st.write("Upload a document or select from preloaded options.")
+uploaded_file = st.file_uploader("Upload a document (.txt, .md, .pdf, .xlsx)", type=("txt", "md", "pdf", "xlsx"))
+preloaded_documents = load_preloaded_documents()
+selected_doc = st.selectbox("Choose a preloaded document (Optional)", options=["None"] + list(preloaded_documents.keys()))
 
-    if uploaded_file and question:
-        with st.spinner("Processing your request..."):
-            try:
-                # Step 1: Extract text from the document
-                def extract_text_from_file(file):
-                    file_type = file.name.split(".")[-1].lower()
-                    if file_type == "pdf":
-                        with pdfplumber.open(file) as pdf:
-                            text = ""
-                            for page in pdf.pages:
-                                text += page.extract_text()
-                        return text
-                    elif file_type in ["txt", "md"]:
-                        return file.read().decode("utf-8")
-                    elif file_type == "xlsx":
-                        df = pd.read_excel(file)
-                        return "\n".join(df.astype(str).apply(lambda x: " ".join(x), axis=1))
-                    else:
-                        st.error("Unsupported file type.")
-                        return None
+# Determine the document text to use
+if uploaded_file:
+    document_text = extract_text_from_file(uploaded_file)
+    st.write("Using the uploaded document.")
+elif selected_doc != "None":
+    document_text = preloaded_documents[selected_doc]
+    st.write(f"Using preloaded document: {selected_doc}")
+else:
+    document_text = None
+    st.warning("Please upload a document or select a preloaded document to continue.")
 
-                document_text = extract_text_from_file(uploaded_file)
-                if not document_text:
-                    st.error("Could not extract text from the document.")
-                    st.stop()
+# Ask the user for a question
+question = st.text_area(
+    "Now ask a question about the document!",
+    placeholder="e.g., Summarize this document.",
+    disabled=document_text is None,
+)
 
-                # Step 2: Generate embeddings for the document chunks
-                st.info("Step 2: Generating embeddings for the document...")
-                chunk_size = 500
-                document_chunks = [
-                    document_text[i:i + chunk_size]
-                    for i in range(0, len(document_text), chunk_size)
-                ]
+if document_text and question:
+    with st.spinner("Processing your request..."):
+        try:
+            # Step 2: Generate embeddings for the document chunks
+            st.info("Step 2: Generating embeddings for the document...")
+            chunk_size = 500
+            document_chunks = [
+                document_text[i:i + chunk_size]
+                for i in range(0, len(document_text), chunk_size)
+            ]
 
-                embeddings = []
-                for chunk in document_chunks:
-                    response = openai.Embedding.create(
-                        model="text-embedding-ada-002",
-                        input=chunk
-                    )
-                    embeddings.append(response["data"][0]["embedding"])
-
-                # Step 3: Generate embeddings for the question
-                st.info("Step 3: Generating embeddings for the question...")
-                question_embedding_response = openai.Embedding.create(
+            embeddings = []
+            for chunk in document_chunks:
+                response = openai.Embedding.create(
                     model="text-embedding-ada-002",
-                    input=question
+                    input=chunk
                 )
-                question_embedding = question_embedding_response["data"][0]["embedding"]
+                embeddings.append(response["data"][0]["embedding"])
 
-                # Step 4: Find the most relevant chunk using cosine similarity
-                st.info("Step 4: Finding the most relevant chunk...")
-                similarities = cosine_similarity([question_embedding], embeddings)
-                most_relevant_chunk_index = np.argmax(similarities)
-                most_relevant_chunk = document_chunks[most_relevant_chunk_index]
+            # Step 3: Generate embeddings for the question
+            st.info("Step 3: Generating embeddings for the question...")
+            question_embedding_response = openai.Embedding.create(
+                model="text-embedding-ada-002",
+                input=question
+            )
+            question_embedding = question_embedding_response["data"][0]["embedding"]
 
-                # Step 5: Use ChatGPT API to answer the question
-                st.info("Step 5: Generating the answer using ChatGPT API...")
-                completion_response = openai.ChatCompletion.create(
-                    model="gpt-3.5-turbo",  # Replace with "gpt-4" if needed
-                    messages=[
-                        {"role": "system", "content": "You are a helpful assistant."},
-                        {"role": "user", "content": f"Based on the following context, answer the question:\n\nContext: {most_relevant_chunk}\n\nQuestion: {question}"}
-                    ]
-                )
-                answer = completion_response["choices"][0]["message"]["content"]
+            # Step 4: Find the most relevant chunk using cosine similarity
+            st.info("Step 4: Finding the most relevant chunk...")
+            similarities = cosine_similarity([question_embedding], embeddings)
+            most_relevant_chunk_index = np.argmax(similarities)
+            most_relevant_chunk = document_chunks[most_relevant_chunk_index]
 
-                # Display the result
-                st.success("Here is the answer:")
-                st.write(f"**Answer:** {answer}")
+            # Step 5: Use ChatGPT API to answer the question
+            st.info("Step 5: Generating the answer using ChatGPT API...")
+            completion_response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",  # Replace with "gpt-4" if needed
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": f"Based on the following context, answer the question:\n\nContext: {most_relevant_chunk}\n\nQuestion: {question}"}
+                ]
+            )
+            answer = completion_response["choices"][0]["message"]["content"]
 
-                # Debug Information
-                with st.expander("Debug Information"):
-                    st.write(f"**Most Relevant Chunk:**\n{most_relevant_chunk}")
-                    st.json({"similarities": similarities.tolist()})
+            # Display the result
+            st.success("Here is the answer:")
+            st.write(f"**Answer:** {answer}")
 
-            except Exception as e:
-                st.error(f"An error occurred: {e}")
+            # Debug Information
+            with st.expander("Debug Information"):
+                st.write(f"**Most Relevant Chunk:**\n{most_relevant_chunk}")
+                st.json({"similarities": similarities.tolist()})
+
+        except Exception as e:
+            st.error(f"An error occurred: {e}")
