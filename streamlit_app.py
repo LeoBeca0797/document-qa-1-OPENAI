@@ -1,7 +1,5 @@
 import streamlit as st
 from streamlit_cookies_manager import EncryptedCookieManager
-from streamlit_extras.colored_header import colored_header
-from streamlit_extras.mention import mention
 
 # ---- Set up cookies manager ----
 cookies = EncryptedCookieManager(
@@ -10,6 +8,18 @@ cookies = EncryptedCookieManager(
 )
 if not cookies.ready():
     st.stop()
+
+# ---- Styling Function ----
+def styled_header(label, description, color):
+    st.markdown(
+        f"""
+        <div style="background-color: {color}; padding: 10px; border-radius: 5px;">
+            <h3 style="color: white; margin: 0;">{label}</h3>
+            <p style="color: white; margin: 0;">{description}</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 # ---- Main Application ----
 # Header Section
@@ -62,10 +72,10 @@ if selected_student:
         st.sidebar.write(f"- **{key}**: {value}")
 
 # Student Input Section
-colored_header(
+styled_header(
     label="Inserisci i dati dello studente",
     description="Compila i campi sottostanti per raccogliere le informazioni necessarie.",
-    color_name="green-70",
+    color="#4CAF50",
 )
 
 student_name = st.text_input("👤 Nome dello studente", placeholder="Es: Mario Rossi")
@@ -87,10 +97,10 @@ if student_name:
         ],
     )
 
-    colored_header(
+    styled_header(
         label="Domande di accompagnamento",
         description="Inserisci i dettagli sull'impegno dello studente.",
-        color_name="blue-70",
+        color="#2196F3",
     )
 
     study_hours = st.number_input(
@@ -107,10 +117,10 @@ if student_name:
     formula_result = (study_hours * 2) + (assignments_completed * 1.5) + (classes_attended * 3)
 
     # Show feedback based on the result
-    colored_header(
+    styled_header(
         label="📊 Feedback",
         description="Valutazione basata sui dati forniti.",
-        color_name="orange-70",
+        color="#FF9800",
     )
     if formula_result < 100:
         st.success("🟢 Continua così!")
@@ -130,9 +140,14 @@ if student_name:
         "Risultato": formula_result,
     }
 
-    # Mock data upload
-    if st.button("Carica i Dati sul Server"):
-        st.success(f"Dati di **{student_name}** caricati con successo!")
+    # Option to upload data
+    upload_data = st.checkbox("Vuoi caricare i dati in forma anonima?")
+
+    if upload_data:
+        if st.button("Carica i Dati sul Server"):
+            st.success(f"Dati di **{student_name}** caricati con successo! (Tutti i dati sono anonimizzati)")
+    else:
+        st.info("I dati non saranno caricati, ma sono visibili solo localmente.")
 
 # View all entered student data
 if st.session_state.student_data:
