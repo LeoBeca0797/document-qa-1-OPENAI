@@ -73,6 +73,10 @@ else:
         st.write(f"Option 3 Selected: `{option3}`")
         st.write(f"Formula Result: `{formula_result}`")
 
+import os
+import pdfplumber
+import pandas as pd
+
 # ---- PART 2: DOCUMENT-BASED RAG QUESTION ANSWERING ----
 st.header("📄 Part 2: Document-Based RAG Question Answering")
 
@@ -87,19 +91,27 @@ def load_preloaded_documents():
     }
     documents = {}
     for name, path in preloaded_documents.items():
+        if not os.path.exists(path):
+            st.warning(f"File not found: {path}")
+            continue
+
         file_type = path.split(".")[-1].lower()
-        if file_type == "pdf":
-            with pdfplumber.open(path) as pdf:
-                text = "".join([page.extract_text() for page in pdf.pages])
-        elif file_type == "txt":
-            with open(path, "r") as file:
-                text = file.read()
-        elif file_type == "xlsx":
-            df = pd.read_excel(path)
-            text = "\n".join(df.astype(str).apply(lambda x: " ".join(x), axis=1))
-        else:
-            text = None
-        documents[name] = text
+        try:
+            if file_type == "pdf":
+                with pdfplumber.open(path) as pdf:
+                    text = "".join([page.extract_text() for page in pdf.pages])
+            elif file_type == "txt":
+                with open(path, "r") as file:
+                    text = file.read()
+            elif file_type == "xlsx":
+                df = pd.read_excel(path)
+                text = "\n".join(df.astype(str).apply(lambda x: " ".join(x), axis=1))
+            else:
+                text = None
+                st.warning(f"Unsupported file format: {path}")
+            documents[name] = text
+        except Exception as e:
+            st.error(f"Error processing {path}: {e}")
     return documents
 
 # Allow users to upload a document or choose from preloaded ones
