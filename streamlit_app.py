@@ -49,7 +49,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.markdown('<div class="main-header">Benvenuta sul PISA</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-header">Ciao Elisa, benvenuta su PISE</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub-header">Il tuo aiuto nell\'interpretazione e la raccolta delle capacità socio-emotive!</div>', unsafe_allow_html=True)
 
 # Sidebar with Styled Header
