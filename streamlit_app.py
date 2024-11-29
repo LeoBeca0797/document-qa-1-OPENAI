@@ -1,3 +1,4 @@
+import streamlit as st
 # ---- TEACHER-GUIDED STUDENT INPUT ----
 st.header("📐 Teacher-Guided Student Input Dashboard")
 
