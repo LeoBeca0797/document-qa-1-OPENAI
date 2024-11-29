@@ -23,9 +23,6 @@ if not openai_api_key:
 else:
     openai.api_key = openai_api_key
 '''
-# ---- PART 1: FORMULA-BASED INTERACTIVE DASHBOARD WITH STUDENT MANAGEMENT ----
-st.header("📐 Part 1: Formula-Based Interactive Dashboard with Student Management")
-
 # Sidebar for managing classes and students
 st.sidebar.header("Class and Student Management")
 class_name = st.sidebar.text_input("Enter Class Name", placeholder="e.g., Math 101")
