@@ -13,6 +13,22 @@ st.header("📐 Teacher-Guided Student Input Dashboard")
 if "student_data" not in st.session_state:
     st.session_state.student_data = {}
 
+# Sidebar section for viewing added students
+st.sidebar.header("Students List")
+if st.session_state.student_data:
+    student_list = list(st.session_state.student_data.keys())
+    selected_student = st.sidebar.selectbox("Select a Student to View Details", student_list)
+else:
+    st.sidebar.write("No students added yet.")
+    selected_student = None
+
+# Display details of the selected student
+if selected_student:
+    st.sidebar.write(f"### {selected_student}'s Details")
+    student_details = st.session_state.student_data[selected_student]
+    for key, value in student_details.items():
+        st.sidebar.write(f"- **{key}**: {value}")
+
 # Teacher enters the student's name
 student_name = st.text_input("Enter the Student's Name", placeholder="e.g., John Doe")
 
