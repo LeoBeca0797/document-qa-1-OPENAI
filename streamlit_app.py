@@ -8,34 +8,6 @@ cookies = EncryptedCookieManager(
 )
 if not cookies.ready():
     st.stop()
-
-# ---- Check Login Status ----
-if "logged_in" not in cookies:
-    cookies["logged_in"] = "false"
-
-if cookies["logged_in"] == "false":
-    st.title("Accesso al PISA")
-    username = st.text_input("Inserisci il tuo nome utente", placeholder="Es: insegnante1")
-    password = st.text_input("Inserisci la tua password", type="password", placeholder="Es: password123")
-
-    if st.button("Accedi"):
-        if username == "insegnante1" and password == "password123":
-            cookies["logged_in"] = "true"
-            cookies.save()  # Save cookies
-
-            # Inject JavaScript to reload the page
-            st.markdown(
-                """
-                <script>
-                window.location.reload();
-                </script>
-                """,
-                unsafe_allow_html=True,
-            )
-        else:
-            st.error("Nome utente o password errati. Riprova.")
-    st.stop()
-
 # ---- Main Application ----
 st.header("Benvenuta sul PISA, il tuo aiuto nell'interpretazione e la raccolta delle capacità socio-emotive!")
 
