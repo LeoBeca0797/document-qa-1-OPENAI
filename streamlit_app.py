@@ -81,7 +81,7 @@ styled_header(
 student_name = st.text_input("👤 Nome dello studente", placeholder="Es: Mario Rossi")
 
 if student_name:
-    st.write(f"### Informazioni demografiche di **{student_name}**")
+    st.write(f"### I dati di **{student_name}**")
 
     col1, col2 = st.columns(2)
     with col1:
