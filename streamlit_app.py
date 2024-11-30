@@ -52,6 +52,10 @@ st.markdown(
 st.markdown('<div class="main-header">Benvenuta sul PISE</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub-header">Il tuo aiuto nell\'interpretazione e la raccolta delle capacità socio-emotive!</div>', unsafe_allow_html=True)
 
+# Ensure session state for student data is initialized
+if "student_data" not in st.session_state:
+    st.session_state.student_data = {}  # Initialize as an empty dictionary if not already present
+
 # Sidebar with Styled Header
 st.sidebar.markdown("### 📝 Elenco Studenti")
 
@@ -84,6 +88,7 @@ if selected_student:
     student_details = st.session_state.student_data[selected_student]
     for key, value in student_details.items():
         st.sidebar.write(f"- **{key}**: {value}")
+
 
 
 # Student Input Section
