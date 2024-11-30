@@ -177,7 +177,7 @@ if student_name:
         st.warning("🟡 In questo caso bisogna porre particolare attenzione alle seguenti competenze socio-emotive: **assertività**, **socialità**, **fiducia**, **resistenza allo stress**, **controllo delle emozioni**, **creatività**, **energia**, **ottimismo**, **curiosità**.")
         st.write("""
         ### Cosa implica questo?
-        Solitamente, uno studente che presenta bassi livelli di queste skill, ha:
+        I dati OCSE ci dicono che statisticamente uno studente che presenta bassi livelli di queste skill ha alte probabilità di avere:
         - Una maggiore probabilità di avere **comportamenti a rischio** (poco sonno, alimentazione non corretta, abuso di alcol...)
         - Maggiori livelli di *ansia*
         - Minor *soddisfazione del proprio corpo*
