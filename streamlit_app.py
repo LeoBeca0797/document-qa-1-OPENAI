@@ -3,7 +3,7 @@ from streamlit_cookies_manager import EncryptedCookieManager
 
 # ---- Set up cookies manager ----
 cookies = EncryptedCookieManager(
-    prefix="PISE_app_",  # Add a prefix to avoid conflicts
+    prefix="Primula_app_",  # Add a prefix to avoid conflicts
     password="a-very-secret-key"  # Replace with a strong secret key
 )
 if not cookies.ready():
@@ -49,7 +49,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.markdown('<div class="main-header">Benvenuta sul PISE</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-header">Benvenuta sul Primula</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub-header">Il tuo aiuto nell\'interpretazione e la raccolta delle capacità socio-emotive!</div>', unsafe_allow_html=True)
 
 # Sidebar with Styled Header
@@ -183,4 +183,4 @@ if st.session_state.student_data:
         st.json(st.session_state.student_data)
 
 # Footer
-st.markdown('<div class="footer">© 2024 PISE Support Tool</div>', unsafe_allow_html=True)
+st.markdown('<div class="footer">© 2024 Primula Support Tool</div>', unsafe_allow_html=True)
