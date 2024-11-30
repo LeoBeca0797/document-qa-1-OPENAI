@@ -142,38 +142,18 @@ if student_name:
         key="max_parent_education"
     )
 
-# Feedback Section
-styled_header(
-    label="📊 Feedback",
-    description="Valutazione basata sui dati forniti rispetto al livello socio-emozionale di riferimento.",
-    color="#FF9800",
-)
+    # Feedback Section
+    styled_header(
+        label="📊 Feedback",
+        description="Valutazione basata sui dati forniti rispetto al livello socio-emozionale di riferimento.",
+        color="#FF9800",
+    )
 
-import pandas as pd
-
-
-
-# Evaluate socio-emotional level based on input
-if parental_employment_status == "Basso" or urbanization_level == "Rurale":
-    st.warning("🟡 Lo studente potrebbe trovarsi in un contesto a basso livello socio-emozionale.")
-    
-    # Fixed Table Data
-    table_data = {
-        "Colonna 1": ["Valore 1", "Valore 2", "Valore 3", "Valore 4", "Valore 5", "Valore 6", "Valore 7", "Valore 8", "Valore 9"],
-        "Colonna 2": ["Info A", "Info B", "Info C", "Info D", "Info E", "Info F", "Info G", "Info H", "Info I"],
-        "Colonna 3": ["Dati 1", "Dati 2", "Dati 3", "Dati 4", "Dati 5", "Dati 6", "Dati 7", "Dati 8", "Dati 9"],
-        "Colonna 4": ["Esempio 1", "Esempio 2", "Esempio 3", "Esempio 4", "Esempio 5", "Esempio 6", "Esempio 7", "Esempio 8", "Esempio 9"],
-    }
-    fixed_table = pd.DataFrame(table_data)
-
-    # Display the table in an expandable section
-    with st.expander("Visualizza la tabella di riferimento"):
-        st.table(fixed_table)
-
-
+    if parental_employment_status == "Basso" or urbanization_level == "Rurale":
+        st.warning("🟡 Lo studente potrebbe trovarsi in un contesto a basso livello socio-emozionale.")
     else:
         st.success("🟢 Lo studente ha un contesto favorevole per il livello socio-emozionale.")
-    
+
     # Save student data to session state
     st.session_state.student_data[student_name] = {
         "Età": age,
