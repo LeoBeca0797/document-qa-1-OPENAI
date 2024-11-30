@@ -61,10 +61,8 @@ if "student_data" not in st.session_state:
     st.session_state.student_data = {}
 
 if st.session_state.student_data:
-    for class_name, students in st.session_state.student_data.items():
-        st.sidebar.markdown(f"#### Classe: {class_name}")
-        for student in students:
-            st.sidebar.write(f"- {student['Nome']}")
+    student_list = list(st.session_state.student_data.keys())
+    selected_student = st.sidebar.selectbox("Seleziona uno studente per vedere i dettagli", student_list)
 else:
     st.sidebar.info("Non è stato aggiunto ancora uno studente!")
     selected_student = None
@@ -190,28 +188,25 @@ if student_name:
         st.success("🟢 Lo studente ha un contesto favorevole per il livello socio-emozionale.")
 
     # Save student data to session state
-if grade_level not in st.session_state.student_data:
-    st.session_state.student_data[grade_level] = []
+    st.session_state.student_data[student_name] = {
+        "Età": age,
+        "Genere": gender,
+        "Livello Scolastico": grade_level,
+        "Livello Urbanizzazione": urbanization_level,
+        "Background Migratorio": migration_background,
+        "Status Occupazionale Genitori": parental_employment_status,
+        "Genitori Laureati": parental_graduate,
+        "Livello Istruzione Massimo Genitori": max_parent_education,
+    }
 
-st.session_state.student_data[grade_level].append({
-    "Nome": student_name,
-    "Età": age,
-    "Genere": gender,
-    "Livello Urbanizzazione": urbanization_level,
-    "Background Migratorio": migration_background,
-    "Status Occupazionale Genitori": parental_employment_status,
-    "Genitori Laureati": parental_graduate,
-    "Livello Istruzione Massimo Genitori": max_parent_education,
-})
+    # Option to upload data
+    upload_data = st.checkbox("Vuoi caricare i dati in forma anonima?")
 
-# Option to upload data
-upload_data = st.checkbox("Vuoi caricare i dati in forma anonima?")
-
-if upload_data:
-    if st.button("Carica i Dati sul Server"):
-        st.success(f"Dati di **{student_name}** caricati con successo! (Tutti i dati sono anonimizzati)")
-else:
-    st.info("I dati non saranno caricati, ma sono visibili solo localmente.")
+    if upload_data:
+        if st.button("Carica i Dati sul Server"):
+            st.success(f"Dati di **{student_name}** caricati con successo! (Tutti i dati sono anonimizzati)")
+    else:
+        st.info("I dati non saranno caricati, ma sono visibili solo localmente.")
 
 # View all entered student data
 if st.session_state.student_data:
