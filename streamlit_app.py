@@ -106,9 +106,9 @@ if selected_student:
 
 # Student Input Section
 st.divider()
+st.markdown('<div class="question-label">👤 Nome dello studente</div>', unsafe_allow_html=True)
 
-
-student_name = st.text_input("👤 Nome dello studente", placeholder="Es: Mario Rossi")
+student_name = st.text_input("", placeholder="Es: Mario Rossi")
 
 if student_name:
     st.write(f"### I dati di **{student_name}**")
