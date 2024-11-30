@@ -105,27 +105,28 @@ if student_name:
     )
 
     # Additional Questions
-    urbanization_level = st.selectbox(
-        "🏙️ Livello di urbanizzazione del sito scolastico", 
-        options=["Urbano", "Rurale"], 
-                index=0,
-        key="urbanization_level"
-    )
+   parental_employment_status = st.selectbox(
+    "👔 Status occupazionale dei genitori", 
+    options=["Seleziona un'opzione", "Basso", "Medio", "Alto"], 
+    key="parental_employment_status"
+)
+
+urbanization_level = st.selectbox(
+    "🏙️ Livello di urbanizzazione del sito scolastico", 
+    options=["Seleziona un'opzione", "Urbano", "Rurale"], 
+    key="urbanization_level"
+)
+
     migration_background = st.radio(
         "🌍 Background migratorio", 
         options=["Sì", "No"], 
-                index=0, key="migration_background"
-    )
-    parental_employment_status = st.selectbox(
-        "👔 Status occupazionale dei genitori", 
-        options=["Basso", "Medio", "Alto"], 
-                index=0, 
-        key="parental_employment_status"
+        index=0, 
+        key="migration_background"
     )
     parental_graduate = st.radio(
         "🎓 Almeno uno dei due genitori è laureato?", 
         options=["Sì", "No"], 
-                index=0,
+        index=0,
         key="parental_graduate"
     )
     max_parent_education = st.selectbox(
@@ -138,7 +139,7 @@ if student_name:
             "Laurea magistrale", 
             "Dottorato"
         ],
-                index=0,
+        index=0,
         key="max_parent_education"
     )
 import pandas as pd
