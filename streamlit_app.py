@@ -174,7 +174,7 @@ if student_name:
     )
 
     if parental_employment_status == "Basso" or urbanization_level == "Rurale":
-        st.warning("🟡 In questo caso bisogna porre particolare attenzione alle seguenti capacità socio-emotive: **assertività**, **socialità**, **fiducia**, **resistenza allo stress**, **controllo delle emozioni**, **creatività**, **energia**, **ottimismo**, **curiosità**.")
+        st.warning("🟡 In questo caso bisogna porre particolare attenzione alle seguenti competenze socio-emotive: **assertività**, **socialità**, **fiducia**, **resistenza allo stress**, **controllo delle emozioni**, **creatività**, **energia**, **ottimismo**, **curiosità**.")
         st.write("""
         ### Cosa implica questo?
         Solitamente, uno studente che presenta bassi livelli di queste skill, ha:
