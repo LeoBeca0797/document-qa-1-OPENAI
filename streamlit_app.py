@@ -196,10 +196,7 @@ if student_name:
 
     else:
         st.success("🟢 Lo studente ha un contesto favorevole per il livello socio-emozionale.")
-st.divider()
-st.write(""" 
-        ###Diventa parte del Progetto.
-    """)
+
     # Save student data to session state
     st.session_state.student_data[student_name] = {
         "Età": age,
@@ -209,7 +206,10 @@ st.write("""
         "Background Migratorio": migration_background,
         "Status Occupazionale Genitori": parental_employment_status,
     }
-
+st.divider()
+st.write(""" 
+        ###Diventa parte del Progetto.
+    """)
     # Option to upload data
     upload_data = st.checkbox("Vuoi caricare i dati in forma anonima?")
 
