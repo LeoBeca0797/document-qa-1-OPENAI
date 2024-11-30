@@ -100,21 +100,28 @@ styled_header(
 
 student_name = st.text_input("👤 Nome dello studente", placeholder="Es: Mario Rossi")
 
+# Teacher enters the student's name
+student_name = st.text_input("Inserisci il nome dello studente", placeholder="e.g., Mario Rossi")
+
+# Teacher enters or creates the class name
 if student_name:
-    st.write(f"### I dati di **{student_name}**")
+    student_class = st.text_input("Inserisci il nome della classe", placeholder="e.g., Prima A")
 
-    col1, col2 = st.columns(2)
-    with col1:
-        age = st.number_input("📅 Età", min_value=3, max_value=100, value=16, step=1, key="age")
-    with col2:
-        gender = st.selectbox("⚧️ Genere", options=["Maschio", "Femmina", "Non-Binario", "Altro"], key="gender")
+    # Ensure both name and class are entered
+    if student_name and student_class:
+        if "student_data" not in st.session_state:
+            st.session_state.student_data = {}
 
-    grade_level = st.selectbox(
-        "📚 Livello scolastico",
-        options=[
-            "Prima superiore", "Seconda superiore", "Terza superiore", "Quarta superiore", "Quinta superiore"
-        ],
-    )
+        # Save student under the specified class
+        if student_class not in st.session_state.student_data:
+            st.session_state.student_data[student_class] = []
+
+        # Add the student to the class
+        st.session_state.student_data[student_class].append(student_name)
+
+        # Confirmation message
+        st.success(f"Studente **{student_name}** aggiunto alla classe **{student_class}**.")
+
 
     styled_header(
         label="Domande di accompagnamento",
