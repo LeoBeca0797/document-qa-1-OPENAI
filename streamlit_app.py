@@ -1,6 +1,20 @@
 import streamlit as st
 from streamlit_cookies_manager import EncryptedCookieManager
 
+st.markdown(
+    """
+    <style>
+    .question-label {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+
 # ---- Set up cookies manager ----
 cookies = EncryptedCookieManager(
     prefix="Primula_app_",  # Add a prefix to avoid conflicts
@@ -106,8 +120,9 @@ if student_name:
     )
 
     # Additional Questions
+    st.markdown('<div class="question-label">🏙️ Livello di urbanizzazione del sito scolastico</div>', unsafe_allow_html=True)
     urbanization_level = st.selectbox(
-        "🏙️ Livello di urbanizzazione del sito scolastico", 
+        "", 
         options=["Urbano", "Rurale"], 
                 index=0,
         key="urbanization_level"
