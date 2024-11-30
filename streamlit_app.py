@@ -52,32 +52,14 @@ st.markdown(
 st.markdown('<div class="main-header">Benvenuta sul PISE</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub-header">Il tuo aiuto nell\'interpretazione e la raccolta delle capacità socio-emotive!</div>', unsafe_allow_html=True)
 
-# Ensure session state for student data is initialized
-if "student_data" not in st.session_state:
-    st.session_state.student_data = {}  # Initialize as an empty dictionary if not already present
-
 # Sidebar with Styled Header
 st.sidebar.markdown("### 📝 Elenco Studenti")
+if "student_data" not in st.session_state:
+    st.session_state.student_data = {}
 
-# Fake Search Bar
-search_query = st.sidebar.text_input("🔍 Cerca uno studente", placeholder="Digita un nome o una classe")
-
-# Organize students by class
-students_by_class = {}
-for student, details in st.session_state.student_data.items():
-    student_class = details.get("Livello Scolastico", "Non Specificato")
-    if student_class not in students_by_class:
-        students_by_class[student_class] = []
-    students_by_class[student_class].append(student)
-
-# Display students by class
-if students_by_class:
-    for class_name, students in students_by_class.items():
-        st.sidebar.markdown(f"#### {class_name}")
-        filtered_students = [s for s in students if search_query.lower() in s.lower()]
-        for student in filtered_students:
-            if st.sidebar.button(student, key=f"student_{student}"):
-                selected_student = student
+if st.session_state.student_data:
+    student_list = list(st.session_state.student_data.keys())
+    selected_student = st.sidebar.selectbox("Seleziona uno studente per vedere i dettagli", student_list)
 else:
     st.sidebar.info("Non è stato aggiunto ancora uno studente!")
     selected_student = None
@@ -89,8 +71,6 @@ if selected_student:
     for key, value in student_details.items():
         st.sidebar.write(f"- **{key}**: {value}")
 
-
-
 # Student Input Section
 styled_header(
     label="Inserisci i dati dello studente",
@@ -100,26 +80,21 @@ styled_header(
 
 student_name = st.text_input("👤 Nome dello studente", placeholder="Es: Mario Rossi")
 
-
-# Teacher enters or creates the class name
 if student_name:
-    student_class = st.text_input("Inserisci il nome della classe", placeholder="e.g., Prima A")
+    st.write(f"### I dati di **{student_name}**")
 
-    # Ensure both name and class are entered
-    if student_name and student_class:
-        if "student_data" not in st.session_state:
-            st.session_state.student_data = {}
+    col1, col2 = st.columns(2)
+    with col1:
+        age = st.number_input("📅 Età", min_value=3, max_value=100, value=16, step=1, key="age")
+    with col2:
+        gender = st.selectbox("⚧️ Genere", options=["Maschio", "Femmina", "Non-Binario", "Altro"], key="gender")
 
-        # Save student under the specified class
-        if student_class not in st.session_state.student_data:
-            st.session_state.student_data[student_class] = []
-
-        # Add the student to the class
-        st.session_state.student_data[student_class].append(student_name)
-
-        # Confirmation message
-        st.success(f"Studente **{student_name}** aggiunto alla classe **{student_class}**.")
-
+    grade_level = st.selectbox(
+        "📚 Livello scolastico",
+        options=[
+            "Prima superiore", "Seconda superiore", "Terza superiore", "Quarta superiore", "Quinta superiore"
+        ],
+    )
 
     styled_header(
         label="Domande di accompagnamento",
