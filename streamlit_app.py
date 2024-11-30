@@ -183,11 +183,12 @@ if student_name:
         - Minor *soddisfazione del proprio corpo*
         - Maggiori *rischi legati al benessere psicologico*
 
-        - Minor probabilità di intraprendere una **carriera in ambito informatico, scientifico e ingegneristico**
+        - Minor probabilità di essere orientata ad una **carriera in ambito STEM**.
     """)
         st.write("""
         ### Strumenti di supporto
-        Il **School Toolkit** della Fondazione per la Scuola è uno strumento di autoformazione per docenti delle scuole secondarie, progettato per promuovere lezioni partecipative e potenziare le competenze trasversali degli studenti, incluse quelle socio-emotive. Offre 16 attività pratiche, come brainstorming e case study, che favoriscono collaborazione, empatia e comunicazione efficace attraverso metodi esperienziali e inclusivi. Gli insegnanti, utilizzando queste attività, possono creare ambienti di apprendimento che sviluppano abilità fondamentali per il benessere e il successo scolastico e personale degli studenti.
+        f"I dati OCSE ci dicono, per potenziare le competenze di **{student_name}**, potresti adottare delle *best practice*. Alcuni esempi li puoi trovare qua:"
+        Lo **School Toolkit** della Fondazione per la Scuola è uno strumento di autoformazione per docenti delle scuole secondarie, progettato per promuovere lezioni partecipative e potenziare le competenze trasversali degli studenti, incluse quelle socio-emotive. Offre 16 attività pratiche, come brainstorming e case study, che favoriscono collaborazione, empatia e comunicazione efficace attraverso metodi esperienziali e inclusivi. Gli insegnanti, utilizzando queste attività, possono creare ambienti di apprendimento che sviluppano abilità fondamentali per il benessere e il successo scolastico e personale degli studenti.
     """)
 
 
