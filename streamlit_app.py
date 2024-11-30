@@ -203,19 +203,19 @@ if student_name and student_class:
         st.success("🟢 Lo studente ha un contesto favorevole per il livello socio-emozionale.")
 
     # Save student data to session state
-    if student_class not in st.session_state.student_data:
-    st.session_state.student_data[student_class] = []
+if student_class not in st.session_state.student_data:
+st.session_state.student_data[student_class] = []
 
-    st.session_state.student_data[student_class].append({
-            "Età": age,
-            "Genere": gender,
-            "Livello Scolastico": grade_level,
-            "Livello Urbanizzazione": urbanization_level,
-            "Background Migratorio": migration_background,
-            "Status Occupazionale Genitori": parental_employment_status,
-            "Genitori Laureati": parental_graduate,
-            "Livello Istruzione Massimo Genitori": max_parent_education,
-    })
+st.session_state.student_data[student_class].append({
+        "Età": age,
+        "Genere": gender,
+        "Livello Scolastico": grade_level,
+        "Livello Urbanizzazione": urbanization_level,
+        "Background Migratorio": migration_background,
+        "Status Occupazionale Genitori": parental_employment_status,
+        "Genitori Laureati": parental_graduate,
+        "Livello Istruzione Massimo Genitori": max_parent_education,
+})
 
 
     # Option to upload data
