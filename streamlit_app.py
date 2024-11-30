@@ -74,10 +74,13 @@ st.markdown(
         padding: 0;
     }
     </style>
-    <img class="full-width-header" src="./Primula.png" alt="Primula Header">
     """,
     unsafe_allow_html=True,
 )
+
+# Use st.image for full-width logo
+st.image("Primula.png", use_column_width=True)
+
 
 # Sidebar with Styled Header
 st.sidebar.markdown("### 📝 Elenco Studenti")
