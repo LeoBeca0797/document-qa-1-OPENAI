@@ -100,7 +100,7 @@ if student_name:
 
     styled_header(
         label="Domande di accompagnamento",
-        description="Inserisci informazioni di contesto socio-economico dello studente.",
+        description="Inserisci informazioni di contesto socio-demografico dello studente.",
         color="#2196F3",
     )
 
