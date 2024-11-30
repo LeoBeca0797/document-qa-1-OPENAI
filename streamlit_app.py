@@ -54,8 +54,6 @@ st.markdown('<div class="sub-header">Il tuo aiuto nell\'interpretazione e la rac
 
 # Sidebar with Styled Header
 st.sidebar.markdown("### 📝 Elenco Studenti")
-st.sidebar.text_input("🔍 Cerca", placeholder="Inserisci un termine di ricerca")
-
 if "student_data" not in st.session_state:
     st.session_state.student_data = {}
 
