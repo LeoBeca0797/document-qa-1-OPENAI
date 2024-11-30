@@ -141,6 +141,7 @@ if student_name:
                 index=0,
         key="max_parent_education"
     )
+import pandas as pd
 
     # Feedback Section
     styled_header(
@@ -149,11 +150,35 @@ if student_name:
         color="#FF9800",
     )
 
-    if parental_employment_status == "Basso" or urbanization_level == "Rurale":
-        st.warning("🟡 Lo studente potrebbe trovarsi in un contesto a basso livello socio-emozionale.")
-    else:
-        st.success("🟢 Lo studente ha un contesto favorevole per il livello socio-emozionale.")
+if "editable_table" not in st.session_state:
+    st.session_state.editable_table = pd.DataFrame(
+        [["Riga " + str(i + 1), "Dati", "Esempio", "Info"] for i in range(9)],
+        columns=["Colonna 1", "Colonna 2", "Colonna 3", "Colonna 4"]
+    )
 
+if parental_employment_status == "Basso" or urbanization_level == "Rurale":
+    st.warning("🟡 Lo studente potrebbe trovarsi in un contesto a basso livello socio-emozionale.")
+    
+    # Display the table
+    st.write("Tabella di riferimento (9x4):")
+    st.table(st.session_state.editable_table)
+
+    # Programmatic Editing
+    st.write("Modifica tabella dal codice:")
+    modify_row = st.number_input("Seleziona la riga da modificare (1-9)", min_value=1, max_value=9, step=1) - 1
+    modify_col = st.selectbox("Seleziona la colonna da modificare", options=st.session_state.editable_table.columns)
+    new_value = st.text_input("Inserisci il nuovo valore")
+
+    if st.button("Aggiorna Tabella"):
+        st.session_state.editable_table.at[modify_row, modify_col] = new_value
+        st.success(f"Valore aggiornato nella riga {modify_row + 1}, colonna {modify_col}.")
+
+    # Display updated table
+    st.write("Tabella aggiornata:")
+    st.table(st.session_state.editable_table)
+
+else:
+    st.success("🟢 Lo studente ha un contesto favorevole per il livello socio-emozionale.")
     # Save student data to session state
     st.session_state.student_data[student_name] = {
         "Età": age,
