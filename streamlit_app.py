@@ -105,11 +105,6 @@ if selected_student:
         st.sidebar.write(f"- **{key}**: {value}")
 
 # Student Input Section
-styled_header(
-    label="Inserisci i dati dello studente",
-    description="Compila i campi sottostanti per raccogliere le informazioni necessarie.",
-    color="#cc00bc",
-)
 st.divider()
 
 
