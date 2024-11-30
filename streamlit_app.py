@@ -141,6 +141,7 @@ if student_name:
                 index=0,
         key="max_parent_education"
     )
+import pandas as pd
 
     # Feedback Section
     styled_header(
@@ -151,6 +152,15 @@ if student_name:
 
     if parental_employment_status == "Basso" or urbanization_level == "Rurale":
         st.warning("🟡 Lo studente potrebbe trovarsi in un contesto a basso livello socio-emozionale.")
+        
+    table_data = {
+        "Colonna 1": ["Valore 1", "Valore 2", "Valore 3", "Valore 4", "Valore 5", "Valore 6", "Valore 7", "Valore 8", "Valore 9"],
+        "Colonna 2": ["Info A", "Info B", "Info C", "Info D", "Info E", "Info F", "Info G", "Info H", "Info I"],
+        "Colonna 3": ["Dati 1", "Dati 2", "Dati 3", "Dati 4", "Dati 5", "Dati 6", "Dati 7", "Dati 8", "Dati 9"],
+        "Colonna 4": ["Esempio 1", "Esempio 2", "Esempio 3", "Esempio 4", "Esempio 5", "Esempio 6", "Esempio 7", "Esempio 8", "Esempio 9"],
+    }
+    with st.expander("Visualizza la tabella di riferimento"):
+        st.table(fixed_table)
     else:
         st.success("🟢 Lo studente ha un contesto favorevole per il livello socio-emozionale.")
 
