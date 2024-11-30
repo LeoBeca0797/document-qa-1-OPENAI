@@ -94,6 +94,8 @@ styled_header(
     description="Compila i campi sottostanti per raccogliere le informazioni necessarie.",
     color="#4CAF50",
 )
+st.divider()
+
 
 student_name = st.text_input("👤 Nome dello studente", placeholder="Es: Mario Rossi")
 
