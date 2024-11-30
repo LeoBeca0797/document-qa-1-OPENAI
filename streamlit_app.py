@@ -162,6 +162,10 @@ if student_name:
         key="parental_employment_status"
     )
     st.divider()
+
+    st.warning("*DISCLAIMER*: queste sono solo alcune delle domande estratte dal dataset OCSE. Ne verranno proposte molte altre in futuro per guidare il docente nel colloquio e navigare i dati.")
+    st.divider()
+
     # Feedback Section
     styled_header(
         label="📊 Feedback",
