@@ -143,13 +143,14 @@ if student_name:
     )
 import pandas as pd
 
-    # Feedback Section
-    styled_header(
-        label="📊 Feedback",
-        description="Valutazione basata sui dati forniti rispetto al livello socio-emozionale di riferimento.",
-        color="#FF9800",
-    )
+# Feedback Section
+styled_header(
+    label="📊 Feedback",
+    description="Valutazione basata sui dati forniti rispetto al livello socio-emozionale di riferimento.",
+    color="#FF9800",
+)
 
+# Initialize the 9x4 table programmatically
 if "editable_table" not in st.session_state:
     st.session_state.editable_table = pd.DataFrame(
         [["Riga " + str(i + 1), "Dati", "Esempio", "Info"] for i in range(9)],
@@ -179,6 +180,8 @@ if parental_employment_status == "Basso" or urbanization_level == "Rurale":
 
 else:
     st.success("🟢 Lo studente ha un contesto favorevole per il livello socio-emozionale.")
+
+    
     # Save student data to session state
     st.session_state.student_data[student_name] = {
         "Età": age,
