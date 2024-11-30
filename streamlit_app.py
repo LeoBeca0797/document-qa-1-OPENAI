@@ -118,7 +118,7 @@ if student_name:
         description="Inserisci informazioni di contesto socio-demografico dello studente.",
         color="#2196F3",
     )
-
+    st.divider()
     # Additional Questions
     st.markdown('<div class="question-label">🏙️ Livello di urbanizzazione del sito scolastico</div>', unsafe_allow_html=True)
     urbanization_level = st.selectbox(
@@ -149,7 +149,7 @@ if student_name:
                 index=0, 
         key="parental_employment_status"
     )
-
+    st.divider()
     # Feedback Section
     styled_header(
         label="📊 Feedback",
@@ -158,7 +158,7 @@ if student_name:
     )
 
     if parental_employment_status == "Basso" or urbanization_level == "Rurale":
-        st.warning("🟡 Le caratteristiche che hai inserito solitamente si accompagnano a livelli di competenze socio-emotive basse! Le competenze socio-emotive in questione sono: **assertività**, **socialità**, **fiducia**, **resistenza allo stress**, **controllo delle emozioni**, **creatività**, **energia**, **ottimismo**, **curiosità**.")
+        st.warning("🟡 In questo caso bisogna porre particolare attenzione alle seguenti capacità socio-emotive: **assertività**, **socialità**, **fiducia**, **resistenza allo stress**, **controllo delle emozioni**, **creatività**, **energia**, **ottimismo**, **curiosità**.")
         st.write("""
         ### Cosa implica questo?
         Solitamente, uno studente che presenta bassi livelli di queste skill, ha:
