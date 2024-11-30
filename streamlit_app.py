@@ -146,13 +146,11 @@ if student_name:
         - Minor *soddisfazione del proprio corpo*
         - Maggiori *rischi legati al benessere psicologico*
 
-        - Minor probabilità di intraprendere una carriera in ambito informatico, scientifico e ingegneristico
+        - Minor probabilità di intraprendere una **carriera in ambito informatico, scientifico e ingegneristico**
     """)
         st.write("""
         ### Strumenti di supporto
-        Il School Toolkit della Fondazione per la Scuola è uno strumento di autoformazione progettato per supportare gli insegnanti delle scuole secondarie nel creare lezioni altamente partecipative. Offre un catalogo di 16 attività di facilitazione che promuovono la partecipazione attiva degli studenti, favorendo lo scambio di idee e la collaborazione in classe.
-        Queste attività mirano a potenziare le competenze trasversali degli studenti, tra cui quelle socio-emotive, attraverso metodi inclusivi ed esperienziali. Ad esempio, attività come il "Brainstorming" e il "Case Study" incoraggiano la riflessione collettiva e la risoluzione di problemi, sviluppando abilità come l'empatia, la comunicazione efficace e la collaborazione. 
-        Implementando le attività proposte dal Toolkit, gli insegnanti possono creare un ambiente di apprendimento che facilita lo sviluppo delle competenze socio-emotive degli studenti, essenziali per il loro benessere e successo sia scolastico che personale. 
+        Il **School Toolkit** della Fondazione per la Scuola è uno strumento di autoformazione per docenti delle scuole secondarie, progettato per promuovere lezioni partecipative e potenziare le competenze trasversali degli studenti, incluse quelle socio-emotive. Offre 16 attività pratiche, come brainstorming e case study, che favoriscono collaborazione, empatia e comunicazione efficace attraverso metodi esperienziali e inclusivi. Gli insegnanti, utilizzando queste attività, possono creare ambienti di apprendimento che sviluppano abilità fondamentali per il benessere e il successo scolastico e personale degli studenti.
     """)
 
 
