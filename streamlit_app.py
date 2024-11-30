@@ -53,7 +53,24 @@ st.markdown('<div class="main-header">Benvenuta sul PISE</div>', unsafe_allow_ht
 st.markdown('<div class="sub-header">Il tuo aiuto nell\'interpretazione e la raccolta delle capacità socio-emotive!</div>', unsafe_allow_html=True)
 
 # Sidebar with Styled Header
+# Sidebar with Styled Header
 st.sidebar.markdown("### 📝 Elenco Studenti")
+
+# Add a fake search bar
+search_query = st.sidebar.text_input("🔍 Cerca uno studente", placeholder="Digita un nome o una classe")
+
+if "student_data" not in st.session_state:
+    st.session_state.student_data = {}
+
+if st.session_state.student_data:
+    student_list = list(st.session_state.student_data.keys())
+    filtered_students = [
+        student for student in student_list if search_query.lower() in student.lower()
+    ]
+    selected_student = st.sidebar.selectbox("Seleziona uno studente per vedere i dettagli", filtered_students)
+else:
+    st.sidebar.info("Non è stato aggiunto ancora uno studente!")
+    selected_student = None
 if "student_data" not in st.session_state:
     st.session_state.student_data = {}
 
@@ -79,9 +96,10 @@ styled_header(
 )
 
 student_name = st.text_input("👤 Nome dello studente", placeholder="Es: Mario Rossi")
+student_class = st.text_input("📚 Nome della classe", placeholder="Es: Prima A")
 
-if student_name:
-    st.write(f"### I dati di **{student_name}**")
+if student_name and student_class:
+    st.write(f"### I dati di **{student_name}** nella classe **{student_class}**")
 
     col1, col2 = st.columns(2)
     with col1:
@@ -185,16 +203,20 @@ if student_name:
         st.success("🟢 Lo studente ha un contesto favorevole per il livello socio-emozionale.")
 
     # Save student data to session state
-    st.session_state.student_data[student_name] = {
-        "Età": age,
-        "Genere": gender,
-        "Livello Scolastico": grade_level,
-        "Livello Urbanizzazione": urbanization_level,
-        "Background Migratorio": migration_background,
-        "Status Occupazionale Genitori": parental_employment_status,
-        "Genitori Laureati": parental_graduate,
-        "Livello Istruzione Massimo Genitori": max_parent_education,
-    }
+    if student_class not in st.session_state.student_data:
+    st.session_state.student_data[student_class] = []
+
+    st.session_state.student_data[student_class].append({
+            "Età": age,
+            "Genere": gender,
+            "Livello Scolastico": grade_level,
+            "Livello Urbanizzazione": urbanization_level,
+            "Background Migratorio": migration_background,
+            "Status Occupazionale Genitori": parental_employment_status,
+            "Genitori Laureati": parental_graduate,
+            "Livello Istruzione Massimo Genitori": max_parent_education,
+    })
+
 
     # Option to upload data
     upload_data = st.checkbox("Vuoi caricare i dati in forma anonima?")
