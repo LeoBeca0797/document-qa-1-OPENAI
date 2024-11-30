@@ -123,29 +123,10 @@ if student_name:
                 index=0, key="migration_background"
     )
     parental_employment_status = st.selectbox(
-        "👔 Status occupazionale dei genitori", 
+        "👔 Status Socio-Economico", 
         options=["Basso", "Medio", "Alto"], 
                 index=0, 
         key="parental_employment_status"
-    )
-    parental_graduate = st.radio(
-        "🎓 Almeno uno dei due genitori è laureato?", 
-        options=["Sì", "No"], 
-                index=0,
-        key="parental_graduate"
-    )
-    max_parent_education = st.selectbox(
-        "📘 Livello massimo di istruzione raggiunto da uno dei due genitori",
-        options=[
-            "Licenza elementare", 
-            "Licenza media", 
-            "Diploma superiore", 
-            "Laurea triennale", 
-            "Laurea magistrale", 
-            "Dottorato"
-        ],
-                index=0,
-        key="max_parent_education"
     )
 
     # Feedback Section
@@ -156,31 +137,22 @@ if student_name:
     )
 
     if parental_employment_status == "Basso" or urbanization_level == "Rurale":
-        st.warning("🟡 Le caratteristiche che hai inserito solitamente si accompagnano a livelli di competenze socio-emotive basse!")
+        st.warning("🟡 Le caratteristiche che hai inserito solitamente si accompagnano a livelli di competenze socio-emotive basse! Le competenze socio-emotive in questione sono: **assertività**, **socialità**, **fiducia**, **resistenza allo stress**, **controllo delle emozioni**, **creatività**, **energia**, **ottimismo**, **curiosità**.")
         st.write("""
-        ### Impatto delle Competenze Socio-Emotive (SES) sul Benessere degli Studenti
-        - **Benessere psicologico e relazionale**: Competenze come la resistenza allo stress, l'ottimismo e il controllo emotivo sono associate a un benessere psicologico migliore. Gli studenti con livelli più alti di queste competenze tendono a sperimentare meno ansia in classe e durante i test e a mantenere un'immagine corporea positiva.
-        - Relazioni sociali positive e soddisfacenti sono più comuni tra studenti con elevate capacità di empatia e sociabilità. Queste competenze migliorano le interazioni con compagni di classe e insegnanti, rafforzando il senso di appartenenza e diminuendo il rischio di isolamento.
-        - **Comportamenti salutari**: Gli studenti con maggiori abilità nella regolazione emotiva e nella resilienza allo stress tendono a intraprendere comportamenti più sani, come evitare il consumo di alcol e tabacco e praticare attività fisica regolarmente.
-        - **Soddisfazione della vita**: L'ottimismo e l'energia sono fortemente correlati con una maggiore soddisfazione per la vita e una visione più positiva del futuro. Gli studenti che possiedono queste competenze affrontano meglio le sfide e mantengono un atteggiamento propositivo verso il raggiungimento dei propri obiettivi.
-        - **Equità e benessere tra i gruppi**: Tuttavia, esistono differenze significative nella distribuzione delle competenze socio-emotive tra studenti di diverso genere e background socio-economico, che possono influenzare il benessere. Ad esempio, gli studenti provenienti da contesti socio-economici svantaggiati spesso riportano livelli inferiori di fiducia, empatia e motivazione al successo, il che può avere impatti negativi sulla loro esperienza scolastica complessiva.
-        - **Ruolo dell'ambiente scolastico e familiare**: Un ambiente scolastico che promuove attivamente l'apprendimento socio-emotivo, supportato da insegnanti preparati e pratiche didattiche mirate, può favorire il benessere degli studenti. Anche il coinvolgimento delle famiglie e delle comunità nella promozione di queste competenze è cruciale.
+        ### Cosa implica questo?
+        Solitamente, uno studente che presenta bassi livelli di queste skill, ha:
+        - Una maggiore probabilità di avere **comportamenti a rischio** (poco sonno, alimentazione non corretta, abuso di alcol...)
+        - Maggiori livelli di *ansia*
+        - Minor *soddisfazione del proprio corpo*
+        - Maggiori *rischi legati al benessere psicologico*
+
+        - Minor probabilità di intraprendere una carriera in ambito informatico, scientifico e ingegneristico
     """)
         st.write("""
-        ### Intervento per Migliorare il Benessere degli Studenti con le Competenze Socio-Emotive
-        Un intervento efficace per migliorare il benessere degli studenti attraverso lo sviluppo delle competenze socio-emotive è l'integrazione strutturata di programmi SEL (Social Emotional Learning) nel curriculum scolastico.
-
-        #### Come Funziona:
-        - **Curriculum dedicato**: Implementare lezioni specifiche focalizzate sullo sviluppo di competenze come empatia, gestione dello stress, collaborazione e resilienza emotiva. Ad esempio, si possono prevedere moduli settimanali con attività pratiche e riflessioni guidate.
-        - **Formazione degli insegnanti**: Offrire corsi di formazione per insegnanti affinché siano preparati a insegnare e modellare le competenze socio-emotive. Questo include strategie per gestire le dinamiche di classe e per supportare gli studenti in situazioni difficili (OCSE2023_Italy_2)(OECD_II Report).
-        - **Creazione di ambienti scolastici positivi**: Promuovere relazioni positive attraverso pratiche come il rinforzo positivo e la gestione costruttiva dei conflitti. Gli insegnanti e i leader scolastici possono adottare politiche che enfatizzano il rispetto, l'inclusività e la sicurezza emotiva.
-        - **Monitoraggio e feedback**: Introdurre strumenti di autovalutazione per studenti e insegnanti per monitorare lo sviluppo delle competenze socio-emotive. Inoltre, il feedback frequente e personalizzato degli insegnanti può incoraggiare miglioramenti continui (OECD_I Report).
-        - **Coinvolgimento della comunità e delle famiglie**: Integrare le attività di apprendimento socio-emotivo con il coinvolgimento delle famiglie e delle comunità, attraverso workshop e programmi di sensibilizzazione per genitori.
-
-        #### Esempio Pratico:
-        Un programma come il **"Second Step"**, utilizzato in molti paesi, combina attività in classe, risorse online e formazione per insegnanti per sviluppare competenze socio-emotive. Include scenari interattivi, giochi di ruolo e discussioni che aiutano gli studenti a riconoscere e gestire le emozioni, migliorare le loro relazioni e prendere decisioni responsabili (OECD_II Report).
-
-        Questo approccio integrato garantisce un impatto a lungo termine, aumentando sia il benessere immediato degli studenti che le loro capacità di affrontare il futuro.
+        ### Strumenti di supporto
+        Il School Toolkit della Fondazione per la Scuola è uno strumento di autoformazione progettato per supportare gli insegnanti delle scuole secondarie nel creare lezioni altamente partecipative. Offre un catalogo di 16 attività di facilitazione che promuovono la partecipazione attiva degli studenti, favorendo lo scambio di idee e la collaborazione in classe.
+        Queste attività mirano a potenziare le competenze trasversali degli studenti, tra cui quelle socio-emotive, attraverso metodi inclusivi ed esperienziali. Ad esempio, attività come il "Brainstorming" e il "Case Study" incoraggiano la riflessione collettiva e la risoluzione di problemi, sviluppando abilità come l'empatia, la comunicazione efficace e la collaborazione. 
+        Implementando le attività proposte dal Toolkit, gli insegnanti possono creare un ambiente di apprendimento che facilita lo sviluppo delle competenze socio-emotive degli studenti, essenziali per il loro benessere e successo sia scolastico che personale. 
     """)
 
 
@@ -195,8 +167,6 @@ if student_name:
         "Livello Urbanizzazione": urbanization_level,
         "Background Migratorio": migration_background,
         "Status Occupazionale Genitori": parental_employment_status,
-        "Genitori Laureati": parental_graduate,
-        "Livello Istruzione Massimo Genitori": max_parent_education,
     }
 
     # Option to upload data
