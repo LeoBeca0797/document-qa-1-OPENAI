@@ -206,4 +206,4 @@ if st.session_state.student_data:
         st.json(st.session_state.student_data)
 
 # Footer
-st.markdown('<div class="footer">© 2024 Primula Support Tool - Power by data OCSE®</div>', unsafe_allow_html=True)
+st.markdown('<div class="footer">© 2024 Primula Support Tool - Powered by data OCSE®</div>', unsafe_allow_html=True)
