@@ -109,6 +109,11 @@ if student_name:
                 index=0,
         key="urbanization_level"
     )
+    school_type = st.selectbox(
+        "🎓 Che tipo di scuola frequenta?", 
+        options=["Liceo", "Istituto Tecnico", "Istituto Professionale"], 
+                index=0, key="school_type"
+    )
     migration_background = st.radio(
         "🌍 Background migratorio", 
         options=["Sì", "No"], 
