@@ -100,8 +100,6 @@ styled_header(
 
 student_name = st.text_input("👤 Nome dello studente", placeholder="Es: Mario Rossi")
 
-# Teacher enters the student's name
-student_name = st.text_input("Inserisci il nome dello studente", placeholder="e.g., Mario Rossi")
 
 # Teacher enters or creates the class name
 if student_name:
