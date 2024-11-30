@@ -91,7 +91,7 @@ if selected_student:
 styled_header(
     label="Inserisci i dati dello studente",
     description="Compila i campi sottostanti per raccogliere le informazioni necessarie.",
-    color="#4CAF50",
+    color="#cc00bc",
 )
 st.divider()
 
