@@ -92,8 +92,6 @@ if student_name:
     grade_level = st.selectbox(
         "📚 Livello scolastico",
         options=[
-            "Prima elementare", "Seconda elementare", "Terza elementare", "Quarta elementare", "Quinta elementare",
-            "Prima media", "Seconda media", "Terza media",
             "Prima superiore", "Seconda superiore", "Terza superiore", "Quarta superiore", "Quinta superiore"
         ],
     )
