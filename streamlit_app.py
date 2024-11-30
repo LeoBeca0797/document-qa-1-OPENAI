@@ -53,7 +53,24 @@ st.markdown('<div class="main-header">Benvenuta sul PISE</div>', unsafe_allow_ht
 st.markdown('<div class="sub-header">Il tuo aiuto nell\'interpretazione e la raccolta delle capacità socio-emotive!</div>', unsafe_allow_html=True)
 
 # Sidebar with Styled Header
+# Sidebar with Styled Header
 st.sidebar.markdown("### 📝 Elenco Studenti")
+
+# Add a fake search bar
+search_query = st.sidebar.text_input("🔍 Cerca uno studente", placeholder="Digita un nome o una classe")
+
+if "student_data" not in st.session_state:
+    st.session_state.student_data = {}
+
+if st.session_state.student_data:
+    student_list = list(st.session_state.student_data.keys())
+    filtered_students = [
+        student for student in student_list if search_query.lower() in student.lower()
+    ]
+    selected_student = st.sidebar.selectbox("Seleziona uno studente per vedere i dettagli", filtered_students)
+else:
+    st.sidebar.info("Non è stato aggiunto ancora uno studente!")
+    selected_student = None
 if "student_data" not in st.session_state:
     st.session_state.student_data = {}
 
