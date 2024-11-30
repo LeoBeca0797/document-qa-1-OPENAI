@@ -105,7 +105,6 @@ if selected_student:
         st.sidebar.write(f"- **{key}**: {value}")
 
 # Student Input Section
-st.divider()
 st.markdown('<div class="question-label">👤 Nome dello studente</div>', unsafe_allow_html=True)
 
 student_name = st.text_input("", placeholder="Es: Mario Rossi")
