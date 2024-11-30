@@ -54,12 +54,26 @@ st.markdown('<div class="sub-header">Il tuo aiuto nell\'interpretazione e la rac
 
 # Sidebar with Styled Header
 st.sidebar.markdown("### 📝 Elenco Studenti")
-if "student_data" not in st.session_state:
-    st.session_state.student_data = {}
 
-if st.session_state.student_data:
-    student_list = list(st.session_state.student_data.keys())
-    selected_student = st.sidebar.selectbox("Seleziona uno studente per vedere i dettagli", student_list)
+# Fake Search Bar
+search_query = st.sidebar.text_input("🔍 Cerca uno studente", placeholder="Digita un nome o una classe")
+
+# Organize students by class
+students_by_class = {}
+for student, details in st.session_state.student_data.items():
+    student_class = details.get("Livello Scolastico", "Non Specificato")
+    if student_class not in students_by_class:
+        students_by_class[student_class] = []
+    students_by_class[student_class].append(student)
+
+# Display students by class
+if students_by_class:
+    for class_name, students in students_by_class.items():
+        st.sidebar.markdown(f"#### {class_name}")
+        filtered_students = [s for s in students if search_query.lower() in s.lower()]
+        for student in filtered_students:
+            if st.sidebar.button(student, key=f"student_{student}"):
+                selected_student = student
 else:
     st.sidebar.info("Non è stato aggiunto ancora uno studente!")
     selected_student = None
@@ -70,6 +84,7 @@ if selected_student:
     student_details = st.session_state.student_data[selected_student]
     for key, value in student_details.items():
         st.sidebar.write(f"- **{key}**: {value}")
+
 
 # Student Input Section
 styled_header(
