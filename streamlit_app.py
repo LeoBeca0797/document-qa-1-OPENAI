@@ -96,9 +96,11 @@ styled_header(
 )
 
 student_name = st.text_input("👤 Nome dello studente", placeholder="Es: Mario Rossi")
+student_class = st.text_input("📚 Nome della classe", placeholder="Es: Prima A")
 
-if student_name:
-    st.write(f"### I dati di **{student_name}**")
+if student_name and student_class:
+    st.write(f"### I dati di **{student_name}** nella classe **{student_class}**")
+
 
     col1, col2 = st.columns(2)
     with col1:
