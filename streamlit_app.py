@@ -63,6 +63,27 @@ if st.session_state.student_data:
 else:
     st.sidebar.info("Non è stato aggiunto ancora uno studente!")
     selected_student = None
+# ---- Add Previously Used Students Section ----
+st.sidebar.markdown("### 📜 Studenti Precedentemente Aggiunti")
+
+# Retrieve previously added students from cookies
+previous_students = cookies.get("previous_students", [])
+
+if previous_students:
+    selected_prev_student = st.sidebar.selectbox("Seleziona uno studente precedentemente aggiunto", previous_students)
+    if selected_prev_student:
+        st.sidebar.write(f"### 📋 Dettagli di {selected_prev_student}")
+        prev_student_details = st.session_state.student_data.get(selected_prev_student, {})
+        for key, value in prev_student_details.items():
+            st.sidebar.write(f"- **{key}**: {value}")
+else:
+    st.sidebar.info("Non ci sono studenti salvati precedentemente!")
+
+# Save new students to cookies for future sessions
+if student_name and student_name not in previous_students:
+    previous_students.append(student_name)
+    cookies["previous_students"] = previous_students
+    cookies.save()
 
 # Display details of the selected student
 if selected_student:
