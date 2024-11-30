@@ -64,7 +64,7 @@ st.markdown(
 )
 
 st.markdown('<div class="main-header">Benvenuta sul Primula</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub-header">Il tuo aiuto nell\'interpretazione e la raccolta delle capacità socio-emotive!</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-header">Il tuo aiuto nell\'interpretazione e la raccolta delle competenze socio-emotive!</div>', unsafe_allow_html=True)
 
 # Sidebar with Styled Header
 st.sidebar.markdown("### 📝 Elenco Studenti")
