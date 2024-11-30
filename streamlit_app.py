@@ -143,6 +143,8 @@ if student_name:
     )
 import pandas as pd
 
+import pandas as pd
+
 # Feedback Section
 styled_header(
     label="📊 Feedback",
@@ -162,12 +164,13 @@ if parental_employment_status == "Basso" or urbanization_level == "Rurale":
     }
     fixed_table = pd.DataFrame(table_data)
 
-    # Display the table
-    st.write("Tabella di riferimento (fissa):")
-    st.table(fixed_table)
+    # Display the table in an expandable section
+    with st.expander("Visualizza la tabella di riferimento"):
+        st.table(fixed_table)
 
 else:
     st.success("🟢 Lo studente ha un contesto favorevole per il livello socio-emozionale.")
+
 
     
     # Save student data to session state
