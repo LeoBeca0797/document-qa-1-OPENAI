@@ -74,7 +74,7 @@ st.markdown(
         padding: 0;
     }
     </style>
-    <img class="full-width-header" src="Primula.png" alt="Primula Header">
+    <img class="full-width-header" src="./Primula.png" alt="Primula Header">
     """,
     unsafe_allow_html=True,
 )
