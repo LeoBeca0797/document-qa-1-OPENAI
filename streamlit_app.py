@@ -143,8 +143,6 @@ if student_name:
     )
 import pandas as pd
 
-import pandas as pd
-
 # Feedback Section
 styled_header(
     label="📊 Feedback",
