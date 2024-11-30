@@ -192,7 +192,7 @@ if student_name:
         st.write(""" 
         Lo **School Toolkit** della Fondazione per la Scuola è uno strumento di autoformazione per docenti delle scuole secondarie, progettato per promuovere lezioni partecipative e potenziare le competenze trasversali degli studenti, incluse quelle socio-emotive. Offre 16 attività pratiche, come brainstorming e case study, che favoriscono collaborazione, empatia e comunicazione efficace attraverso metodi esperienziali e inclusivi. Gli insegnanti, utilizzando queste attività, possono creare ambienti di apprendimento che sviluppano abilità fondamentali per il benessere e il successo scolastico e personale degli studenti.
 
-    """
+    """)
 
     else:
         st.success("🟢 Lo studente ha un contesto favorevole per il livello socio-emozionale.")
