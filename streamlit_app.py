@@ -206,10 +206,7 @@ if student_name:
         "Background Migratorio": migration_background,
         "Status Occupazionale Genitori": parental_employment_status,
     }
-st.divider()
-st.write(""" 
-        ###Diventa parte del Progetto.
-    """)
+
     # Option to upload data
     upload_data = st.checkbox("Vuoi caricare i dati in forma anonima?")
 
