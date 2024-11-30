@@ -204,8 +204,8 @@ st.session_state.student_data[grade_level].append({
     "Livello Istruzione Massimo Genitori": max_parent_education,
 })
 
-    # Option to upload data
-    upload_data = st.checkbox("Vuoi caricare i dati in forma anonima?")
+# Option to upload data
+upload_data = st.checkbox("Vuoi caricare i dati in forma anonima?")
 
     if upload_data:
         if st.button("Carica i Dati sul Server"):
