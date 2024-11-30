@@ -127,18 +127,24 @@ if student_name:
                 index=0,
         key="urbanization_level"
     )
+    st.divider()
+    st.markdown('<div class="question-label">🎓 Che tipo di scuola frequenta?</div>', unsafe_allow_html=True)
     school_type = st.selectbox(
-        "🎓 Che tipo di scuola frequenta?", 
+        "", 
         options=["Liceo", "Istituto Tecnico", "Istituto Professionale"], 
                 index=0, key="school_type"
     )
+    st.divider()
+    st.markdown('<div class="question-label">🌍 Background migratorio</div>', unsafe_allow_html=True)
     migration_background = st.radio(
-        "🌍 Background migratorio", 
+        "", 
         options=["Sì", "No"], 
                 index=0, key="migration_background"
     )
+    st.divider()
+    st.markdown('<div class="question-label">👔 Status Socio-Economico</div>', unsafe_allow_html=True)
     parental_employment_status = st.selectbox(
-        "👔 Status Socio-Economico", 
+        "", 
         options=["Basso", "Medio", "Alto"], 
                 index=0, 
         key="parental_employment_status"
