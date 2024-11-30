@@ -76,7 +76,11 @@ if "student_data" not in st.session_state:
 
 if st.session_state.student_data:
     student_list = list(st.session_state.student_data.keys())
-    selected_student = st.sidebar.selectbox("Seleziona uno studente per vedere i dettagli", student_list)
+selected_student = st.sidebar.selectbox(
+    "Seleziona uno studente per vedere i dettagli", 
+    student_list, 
+    key="student_selectbox"  # Add a unique key here
+)
 else:
     st.sidebar.info("Non è stato aggiunto ancora uno studente!")
     selected_student = None
