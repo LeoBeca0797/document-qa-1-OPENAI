@@ -143,7 +143,7 @@ if student_name:
     # Feedback Section
     styled_header(
         label="📊 Feedback",
-        description="Valutazione basata sui dati forniti rispetto al livello socio-emozionale di riferimento.",
+        description="Cosa ci dicono i dati OCSE:",
         color="#FF9800",
     )
 
