@@ -106,16 +106,16 @@ if student_name:
 
     # Additional Questions
    parental_employment_status = st.selectbox(
-    "👔 Status occupazionale dei genitori", 
-    options=["Seleziona un'opzione", "Basso", "Medio", "Alto"], 
-    key="parental_employment_status"
-)
+        "👔 Status occupazionale dei genitori", 
+        options=["Seleziona un'opzione", "Basso", "Medio", "Alto"], 
+        key="parental_employment_status"
+    )
 
-urbanization_level = st.selectbox(
-    "🏙️ Livello di urbanizzazione del sito scolastico", 
-    options=["Seleziona un'opzione", "Urbano", "Rurale"], 
-    key="urbanization_level"
-)
+    urbanization_level = st.selectbox(
+        "🏙️ Livello di urbanizzazione del sito scolastico", 
+        options=["Seleziona un'opzione", "Urbano", "Rurale"], 
+        key="urbanization_level"
+    )
 
     migration_background = st.radio(
         "🌍 Background migratorio", 
