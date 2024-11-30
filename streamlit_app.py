@@ -207,11 +207,11 @@ st.session_state.student_data[grade_level].append({
 # Option to upload data
 upload_data = st.checkbox("Vuoi caricare i dati in forma anonima?")
 
-    if upload_data:
-        if st.button("Carica i Dati sul Server"):
-            st.success(f"Dati di **{student_name}** caricati con successo! (Tutti i dati sono anonimizzati)")
-    else:
-        st.info("I dati non saranno caricati, ma sono visibili solo localmente.")
+if upload_data:
+    if st.button("Carica i Dati sul Server"):
+        st.success(f"Dati di **{student_name}** caricati con successo! (Tutti i dati sono anonimizzati)")
+else:
+    st.info("I dati non saranno caricati, ma sono visibili solo localmente.")
 
 # View all entered student data
 if st.session_state.student_data:
